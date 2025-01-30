@@ -19,14 +19,16 @@
               <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
               <ul id="nav-mobile" class="left">
                   <li><a href="/">Home</a></li>
-                  <li><a href="/users">Users Jinja</a></li>
+
                   {% if is_authenticated %}
                     <li><a href="/identify">Identify</a></li>
                   {% endif %}
 
-		  <li><a href="/students">Students Jinja</a></li>
-                 
-                  <li><a href="/static/users">Users JS</a></li>
+                  <li><a href="/users">Add Users</a></li>
+                  <li><a href="/students">View Students</a></li>
+                  <li><a href="/todos">Add Tasks</a></li>
+                  <li><a href="/static/users">View Users</a></li>
+                  <li><a href="/static/todos">View Tasks</a></li>
               </ul>
               {% if is_authenticated %}
               <ul id="nav-mobile" class="right">

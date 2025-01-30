@@ -1,5 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
+from App.models.user import User
 
 class Todo(db.Model):
     __tablename__ = 'todo'
@@ -17,6 +18,10 @@ class Todo(db.Model):
         self.done = not self.done
         db.session.add(self)
         db.session.commit()
+
+    def get_username(self):
+        user = User.query.filter_by(id=self.user_id).first() # type: ignore
+        return user.username
 
     def get_json(self):
         return {

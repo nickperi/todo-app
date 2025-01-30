@@ -1,5 +1,5 @@
 
-async function getUserData(){
+async function getData(){
     const response = await fetch('/api/users');
     return response.json();
 }
@@ -15,7 +15,7 @@ function loadTable(users){
 }
 
 async function main(){
-    const users = await getUserData();
+    const users = await getData();
     loadTable(users);
 }
 

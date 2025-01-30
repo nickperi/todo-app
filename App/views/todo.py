@@ -22,8 +22,8 @@ def get_todo_page():
 @todo_views.route('/todos', methods=['POST'])
 def create_todo_action():
     data = request.form
-    flash(f"Todo {data['id']} created!")
-    create_todo(data['text'], data['user_id'])
+    todo = create_todo(data['text'], data['user_id'])
+    flash(f"Todo {todo.text} created!")
     return redirect(url_for('todo_views.get_todo_page'))
 
 @todo_views.route('/api/todos', methods=['GET'])
@@ -41,4 +41,8 @@ def create_todo_endpoint():
         return jsonify({'message': f"failed to create todo"})
     
     return jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
+
+@todo_views.route('/static/todos', methods=['GET'])
+def static_todo_page():
+  return send_from_directory('static', 'static-todo.html')
 

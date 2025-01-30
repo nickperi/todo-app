@@ -3,21 +3,18 @@ from App.database import db
 
 
 def create_todo(text, user_id):
+    student = Student.query.filter_by(studentid=user_id).first()
 
-    students = Student.query.all()
-
-    res = None
-    for student in students:
-        if student.id == user_id:
-            res = student
-
-    if not res:
+    if not student:
         return None
     
-    else:
-        #new_todo = Todo(text=text, user_id=user_id)
-        new_todo = res.add_todo(text=text)
+    todo = Todo.query.filter_by(user_id=user_id, text=text).first()
+
+    if not todo:
+        new_todo = student.add_todo(text=text)
         return new_todo
+    return None
+
 
 def get_all_todos():
     todos = Todo.query.all()
