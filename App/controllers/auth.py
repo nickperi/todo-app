@@ -23,7 +23,7 @@ def setup_jwt(app):
   @jwt.user_lookup_loader
   def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    return User.query.filter_by(username=identity)
+    return User.query.filter_by(username=identity).one_or_none()
   return jwt
 
 
@@ -33,8 +33,8 @@ def add_auth_context(app):
   def inject_user():
       try:
           verify_jwt_in_request()
-          user_id = get_jwt_identity()
-          current_user = User.query.get(user_id)
+          username = get_jwt_identity()
+          current_user = User.query.filter_by(username=username).one_or_none()
           is_authenticated = True
       except Exception as e:
           print(e)
