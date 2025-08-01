@@ -49,6 +49,7 @@
           </tr>
         </thead>
         <tbody>
+          {% if students %}
           {% for student in students %}
             <tr>
                 <td>{{student.id}}</td>
@@ -63,6 +64,10 @@
 
             </tr>
           {% endfor %}
+
+          {% else %}
+            <p>No students</p>
+          {% endif %}
         <tbody>
       </table>
     </div>
