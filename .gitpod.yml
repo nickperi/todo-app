@@ -3,7 +3,7 @@ tasks:
     command: flask run
 
 ports:
-  - port: 8080
+  - port: 5050
     onOpen: open-browser
     visibility: public
 image:

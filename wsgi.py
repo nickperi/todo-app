@@ -1,3 +1,4 @@
+import os
 import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
@@ -67,3 +68,10 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
+
+# Ensure the app runs on the correct port when deployed to Render
+if __name__ == "__main__":
+    # Get the port from the environment or use 5050 as the default
+    port = int(os.environ.get('PORT', 5050))
+    # Run the app on the given host and port
+    app.run(host='0.0.0.0', port=port)

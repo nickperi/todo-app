@@ -1,3 +1,9 @@
 html {
     padding: 0;
 }
+
+.material-symbols-outlined:hover {
+ background-color: cadetblue;
+ border-radius: 100%;
+ scale:1.5;
+}

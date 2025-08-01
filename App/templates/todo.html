@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}App Todos{% endblock %}
+{% block page %}App Todos{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+    <div class="row">
+      <form class="col s12" method="UPDATE" action="/todos/{{todo.id}}">
+        
+        <div class="row">
+            <div class="input-field col s6">
+            <input placeholder="{{todo.id}}" name="id" type="number" class="validate" readonly>
+            <label for="id">Todo Id</label>
+          </div>
+
+          <div class="input-field col s6">
+            <input id="todo-text" placeholder="Text" name="text" type="text" class="validate">
+            <label for="text">Text</label>
+          </div>
+          
+          <div class="input-field col s6">
+            <input placeholder="{{todo.user_id}}" name="user-id" type="number" class="validate" readonly>
+            <label for="user-id">User Id</label>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="input-field col s12">
+            <button class="btn waves-effect waves-light right purple" type="submit" name="action" onclick="editTask('{{todo.id}}')">Update</button>
+          </div>
+        </div> 
+
+      </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='todo.js') }}"></script>
+{% endblock %}
