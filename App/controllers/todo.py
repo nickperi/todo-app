@@ -40,5 +40,4 @@ def get_all_todos_json():
         return []
     
     todos = [todo.get_json() for todo in todos]
-    return todosfrom App.models import Todo, Student
-from App.database import db
+    return todos
