@@ -16,18 +16,18 @@ from App.controllers import (
 
 todo_views = Blueprint('todo_views', __name__, template_folder='../templates')
 
-@jwt_required()
 @todo_views.route('/todos', methods=['GET'])
+@jwt_required()
 def get_todo_page():
     todos = get_all_todos()
     return render_template('todos.html', todos=todos, current_user=jwt_current_user)
 
-@jwt_required()
 @todo_views.route('/todos', methods=['POST'])
+@jwt_required()
 def create_todo_action():
     data = request.form
     todo = create_todo(data['text'], jwt_current_user.id)
-    flash(f"Todo {todo.id} created by User {{jwt_current_user.id}}!")
+    flash(f"Todo {todo.id} created by User {jwt_current_user.id}!")
     return redirect(url_for('todo_views.get_todo_page'))
 
 @todo_views.route('/todos/<int:id>', methods=['GET'])
