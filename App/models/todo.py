@@ -34,10 +34,9 @@ class Todo(db.Model):
     def get_json(self):
         return {
       "id": self.id,
-      "user id": self.user_id,
+      "user_id": self.user_id,
       "text": self.text,
       "done": self.done,
-      "role": self.get_user_type()
     }
 
 
