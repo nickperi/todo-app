@@ -5,7 +5,7 @@ from App.models import User
 def login(username, password):
   user = User.query.filter_by(username=username).first()
   if user and user.check_password(password):
-    return create_access_token(identity=username)
+    return create_access_token(identity=user.id)
   return None
 
 
@@ -15,15 +15,15 @@ def setup_jwt(app):
   # configure's flask jwt to resolve get_current_identity() to the corresponding user's ID
   @jwt.user_identity_loader
   def user_identity_lookup(identity):
-    user = User.query.filter_by(username=identity).one_or_none()
+    user = User.query.filter_by(id=identity).one_or_none()
     if user:
-        return user.username
+        return user.id
     return None
 
   @jwt.user_lookup_loader
   def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    return User.query.filter_by(username=identity)
+    return User.query.filter_by(id=identity).first()
   return jwt
 
 
