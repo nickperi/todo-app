@@ -43,10 +43,9 @@ def update_todo_action(id):
     flash(f"Todo {todo.id} updated!")
     return jsonify({'success':True, 'text':data['text']})
 
-@todo_views.route('/todos/check', methods=['UPDATE'])
-def toggle_todo_action():
-    data = request.json
-    todo = toggle_todo(data['id'])
+@todo_views.route('/todos/<int:id>/check', methods=['UPDATE'])
+def toggle_todo_action(id):
+    todo = toggle_todo(id)
 
     if todo.done:
         flash(f"Todo {todo.id} marked as done!")

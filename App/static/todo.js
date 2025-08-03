@@ -27,13 +27,13 @@ function toggleDone(todoId) {
     const taskCheckbox = document.getElementById(`task-checkbox-${todoId}`);
     const taskDoneField = document.getElementById(`done-${todoId}`);
 
-    fetch(`/todos/check`, {
+    fetch(`/todos/${todoId}/check`, {
         method: 'UPDATE',
 
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: todoId }),
+        
         }).then(response => response.json())
             .then(data => {
             console.log("Received data:", data);  // check what’s coming from the backend
