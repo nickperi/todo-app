@@ -6,12 +6,6 @@
 
 {% block content %}
     <div class="row">
-        <p>
-            This is table is renderd on the Server. Flask gets the data from the database and uses jinja templates to dyanmically render this page when a request is sent to <a href="/students">/students</a>.
-        </p>
-    </div>
-
-    <div class="row">
       <form class="col s12" method="POST" action="/students">
         
         <div class="row">
@@ -42,15 +36,21 @@
     </div>
 
     <div class="row">
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th><th>Username</th><th>Email</th><th>To-do</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for student in students %}
+
+      {% if not students %}
+        <p>No students</p>
+
+      {% else %}
+        <table>
+          <thead>
             <tr>
+              <th>Id</th><th>Username</th><th>Email</th><th>To-do</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for student in students %}
+              <tr>
                 <td>{{student.id}}</td>
                 <td>{{student.username}}</td>
 		            <td>{{student.email}}</td>
@@ -60,11 +60,12 @@
                     {% for todo in student.todos %} <li>{{todo.text}}</li> {% endfor %}
                   </ol>
                 </td>
+              </tr>
+            {% endfor %}
+          <tbody>
+        </table>
 
-            </tr>
-          {% endfor %}
-        <tbody>
-      </table>
+      {% endif %}
     </div>
 
 {% endblock %}

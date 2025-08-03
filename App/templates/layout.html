@@ -21,14 +21,13 @@
               <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
               <ul id="nav-mobile" class="left">
                   <li><a href="/">Home</a></li>
-                  <li><a href="/users">Users Jinja</a></li>
+                  <li><a href="/users">Users</a></li>
                   <li><a href="/students">Students</a></li>
                   {% if is_authenticated %}
                     <li><a href="/identify">Identify</a></li>
                     <li><a href="/todos">Todos</a></li>
                   {% endif %}
                  
-                  <li><a href="/static/users">Users JS</a></li>
               </ul>
               {% if is_authenticated %}
               <ul id="nav-mobile" class="right">
