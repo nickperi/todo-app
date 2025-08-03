@@ -3,7 +3,7 @@ function editTask(todoId) {
     const todoText = document.getElementById('todo-text').value;
 
     fetch(`/todos/${todoId}`, {
-            method: 'UPDATE',
+            method: 'PUT',
 
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ function toggleDone(todoId) {
     const taskDoneField = document.getElementById(`done-${todoId}`);
 
     fetch(`/todos/${todoId}/check`, {
-        method: 'UPDATE',
+        method: 'PUT',
 
         headers: {
             'Content-Type': 'application/json',

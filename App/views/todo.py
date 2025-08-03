@@ -36,14 +36,14 @@ def get_todo_page_by_id(id):
     todo = get_todo(id)
     return render_template('todo.html', todo=todo)
 
-@todo_views.route('/todos/<int:id>', methods=['UPDATE'])
+@todo_views.route('/todos/<int:id>', methods=['PUT'])
 def update_todo_action(id):
     data = request.json
     todo = update_todo(id, data['text'])
     flash(f"Todo {todo.id} updated!")
     return jsonify({'success':True, 'text':data['text']})
 
-@todo_views.route('/todos/<int:id>/check', methods=['UPDATE'])
+@todo_views.route('/todos/<int:id>/check', methods=['PUT'])
 def toggle_todo_action(id):
     todo = toggle_todo(id)
 
