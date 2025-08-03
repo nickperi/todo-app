@@ -36,7 +36,7 @@
         <table>
           <thead>
             <tr>
-              <th>To-do Id</th><th>Task</th><th>User ID</th><th>Username</th>
+              <th>To-do Id</th><th>Task</th><th>User ID</th><th>Username</th><th>Done</th>
             </tr>
           </thead>
 
@@ -47,7 +47,21 @@
                 <td>{{todo.text}}</td>
                 <td>{{todo.user_id}}</td>
                 <td>{{todo.get_username()}}</td>
+
+                {% if todo.done %}
+                  <td id="done-{{todo.id}}"><span>Yes</span></td>
+                {% else %}
+                  <td id="done-{{todo.id}}"><span>No</span></td>
+                {% endif %}
+
                 <td><a style="color: darkcyan;" class="material-symbols-outlined" id="edit-button-{{todo.id}}" href="/todos/{{todo.id}}">edit</a></td>
+
+                {% if todo.done %}
+                  <td id="task-checkbox-{{todo.id}}"><i style="color: green;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
+                {% else %}
+                  <td id="task-checkbox-{{todo.id}}"><i style="color: green;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
+                {% endif %}
+                
               </tr>
             {% endfor %}
           <tbody>
@@ -55,5 +69,4 @@
 
       {% endif %}
     </div>
-
 {% endblock %}

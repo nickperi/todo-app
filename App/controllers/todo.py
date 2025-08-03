@@ -29,8 +29,19 @@ def update_todo(id, text):
          return todo
      return None
 
+def toggle_todo(id):
+    todo = get_todo(id)
+
+    if todo:
+        todo.done = not todo.done
+        db.session.add(todo)
+        db.session.commit()
+        return todo
+    return None
+
+
 def get_all_todos():
-    todos = Todo.query.all()
+    todos = Todo.query.order_by(Todo.id).all()
     return todos
 
 def get_all_todos_json():

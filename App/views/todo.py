@@ -7,6 +7,7 @@ from App.controllers import (
     create_todo,
     get_todo,
     update_todo,
+    toggle_todo,
     get_all_todos,
     get_all_todos_json,
     jwt_required
@@ -41,6 +42,18 @@ def update_todo_action(id):
     todo = update_todo(id, data['text'])
     flash(f"Todo {todo.id} updated!")
     return jsonify({'success':True, 'text':data['text']})
+
+@todo_views.route('/todos/check', methods=['UPDATE'])
+def toggle_todo_action():
+    data = request.json
+    todo = toggle_todo(data['id'])
+
+    if todo.done:
+        flash(f"Todo {todo.id} marked as done!")
+    else:
+        flash(f"Todo {todo.id} marked as incomplete!")
+        
+    return jsonify({'success':True, 'done':todo.done})
 
 
 @todo_views.route('/api/todos', methods=['GET'])
