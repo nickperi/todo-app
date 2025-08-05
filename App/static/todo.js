@@ -1,6 +1,15 @@
-function editTask(todoId) {
+function makeTaskEditable(todoId) {
+    const todoTextInput = document.getElementById(`task-${todoId}-input`);
     const todoEditButton = document.getElementById(`edit-button-${todoId}`);
-    const todoText = document.getElementById('todo-text').value;
+    todoEditButton.innerHTML = `<a style="color: darkcyan;" class="material-symbols-outlined" onclick="editTask('${todoId}')">save</a>`;
+    todoTextInput.readOnly = false;
+    todoTextInput.select();
+}
+
+function editTask(todoId) {
+    const todoTextInput = document.getElementById(`task-${todoId}-input`);
+    const todoText = todoTextInput.value;
+    const todoEditButton = document.getElementById(`edit-button-${todoId}`);
 
     fetch(`/todos/${todoId}`, {
             method: 'PUT',
@@ -15,7 +24,9 @@ function editTask(todoId) {
       
                 if (data.success) {
                     //console.log("Update successful");
-                    window.location.href = '/todos';
+                    todoEditButton.innerHTML = `<a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('${todoId}')">edit</a>`;
+                    todoTextInput.readOnly = true;
+            
                   } else {
                       alert("Update failed.");
                   }
@@ -43,11 +54,11 @@ function toggleDone(todoId) {
 
                 if(data.done) {
                     taskDoneField.innerHTML = `<span>Yes</span>`;
-                    taskCheckbox.innerHTML = `<a style="color: green;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box</a>`;
+                    taskCheckbox.innerHTML = `<a style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box</a>`;
                 }
                 else {
                     taskDoneField.innerHTML = `<span>No</span>`;
-                    taskCheckbox.innerHTML = `<a style="color: green;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box_outline_blank</a>`;
+                    taskCheckbox.innerHTML = `<a style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box_outline_blank</a>`;
                 }
 
             } else {

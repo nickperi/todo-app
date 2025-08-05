@@ -14,7 +14,7 @@
             <label for="text">Text</label>
           </div>
           <div class="input-field col s6">
-            <input placeholder="{{current_user.id}}" name="user_id" type="number" class="validate" readonly>
+            <input placeholder="{{current_user.id}}" value="{{current_user.id}}" name="user_id" type="number" class="validate" readonly>
             <label for="User Id">User Id</label>
           </div>
         </div>
@@ -36,16 +36,14 @@
         <table>
           <thead>
             <tr>
-              <th>To-do Id</th><th>Task</th><th>User ID</th><th>Username</th><th>Done</th>
+              <th>Task</th><th>Username</th><th>Done</th>
             </tr>
           </thead>
 
           <tbody>
             {% for todo in todos %}
               <tr>
-                <td>{{todo.id}}</td>
-                <td>{{todo.text}}</td>
-                <td>{{todo.user_id}}</td>
+                <td id="task-{{todo.id}}-text"><input class="task-input" id="task-{{todo.id}}-input" type="text" readonly value="{{todo.text}}" style="border-bottom: none;"></input></td>
                 <td>{{todo.get_username()}}</td>
 
                 {% if todo.done %}
@@ -54,12 +52,12 @@
                   <td id="done-{{todo.id}}"><span>No</span></td>
                 {% endif %}
 
-                <td><a style="color: darkcyan;" class="material-symbols-outlined" id="edit-button-{{todo.id}}" href="/todos/{{todo.id}}">edit</a></td>
+                <td id="edit-button-{{todo.id}}"><a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('{{todo.id}}')">edit</a></td>
 
                 {% if todo.done %}
-                  <td id="task-checkbox-{{todo.id}}"><i style="color: green;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
+                  <td id="task-checkbox-{{todo.id}}"><i style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
                 {% else %}
-                  <td id="task-checkbox-{{todo.id}}"><i style="color: green;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
+                  <td id="task-checkbox-{{todo.id}}"><i style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
                 {% endif %}
                 
               </tr>
@@ -69,4 +67,6 @@
 
       {% endif %}
     </div>
+
+    <script src="{{ url_for('static', filename='todo.js') }}"></script>
 {% endblock %}
