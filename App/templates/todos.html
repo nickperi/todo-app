@@ -5,8 +5,9 @@
 {{ super() }}
 
 {% block content %}
+
     <div class="row">
-      <form class="col s12" method="POST" action="/todos">
+      <form class="col s12" method="POST" action="/todos/{{year}}_{{month}}_{{day}}">
         
         <div class="row">
           <div class="input-field col s6">
@@ -16,6 +17,15 @@
           <div class="input-field col s6">
             <input placeholder="{{current_user.id}}" value="{{current_user.id}}" name="user_id" type="number" class="validate" readonly>
             <label for="User Id">User Id</label>
+          </div>
+
+           <div class="input-field col s6">
+            {% if day < 10 %}
+              <input placeholder="{{year}}-{{month}}-0{{day}}T{{hour}}:{{minute}}" value="{{year}}-{{month}}-0{{day}}T{{hour}}:{{minute}}" name="date-time" type="datetime" class="validate" readonly>
+            {% else %}
+              <input placeholder="{{year}}-{{month}}-{{day}}T{{hour}}:{{minute}}" value="{{year}}-{{month}}-{{day}}T{{hour}}:{{minute}}" name="date-time" type="datetime" class="validate" readonly>
+            {% endif %}
+              <label for="date-time">Due Date</label>
           </div>
         </div>
       

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from datetime import datetime
 
 from.index import index_views
 
@@ -9,6 +10,8 @@ from App.controllers import (
     update_todo,
     toggle_todo,
     get_all_todos,
+    get_todos_by_due_date,
+    get_todos_by_month,
     get_all_todos_json,
     jwt_required
 )
@@ -23,13 +26,31 @@ def get_todo_page():
     todos = get_all_todos()
     return render_template('todos.html', todos=todos, current_user=jwt_current_user)
 
-@todo_views.route('/todos', methods=['POST'])
+@todo_views.route('/todos/<string:year_month_day>', methods=['GET'])
 @jwt_required()
-def create_todo_action():
+def get_todos_by_date(year_month_day):
+    date_values = year_month_day.split('_')
+    year = int(date_values[0])
+    month = int(date_values[1])
+    day = int(date_values[2])
+    todos = get_todos_by_due_date(year, month, day)
+    return render_template('todos.html', todos=todos, current_user=jwt_current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
+
+
+@todo_views.route('/todos/<int:year>/<int:month>', methods=['GET'])
+@jwt_required()
+def show_todos_for_month(year, month):
+    todos = get_todos_by_month(month, year)
+    return render_template('calendar.html', todos=todos, current_user=jwt_current_user)
+
+
+@todo_views.route('/todos/<string:year_month_day>', methods=['POST'])
+@jwt_required()
+def create_todo_action(year_month_day):
     data = request.form
-    todo = create_todo(data['text'], jwt_current_user.id)
+    todo = create_todo(data['text'], jwt_current_user.id, data['date-time'])
     flash(f"Todo {todo.id} created by User {jwt_current_user.id}!")
-    return redirect(url_for('todo_views.get_todo_page'))
+    return redirect(url_for('todo_views.get_todos_by_date', year_month_day=year_month_day))
 
 @todo_views.route('/todos/<int:id>', methods=['GET'])
 def get_todo_page_by_id(id):

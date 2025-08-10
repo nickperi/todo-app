@@ -1,3 +1,4 @@
+from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from App.models.user import User
@@ -8,10 +9,13 @@ class Todo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     text = db.Column(db.String(120), nullable=False)
     done = db.Column(db.Boolean, default=False)
+    date_created = db.Column(db.DateTime, default=datetime.now)
+    date_due = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, text, user_id):
+    def __init__(self, text, user_id, date_due):
         self.text = text
         self.user_id = user_id
+        self.date_due = date_due
 
 
     def toggle(self):

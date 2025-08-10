@@ -1,8 +1,11 @@
+from datetime import date, datetime
+
+from sqlalchemy import func
 from App.models import Todo, Student, User
 from App.database import db
 
 
-def create_todo(text, user_id):
+def create_todo(text, user_id, date_due):
 
     student = Student.query.filter_by(id=user_id).first()
 
@@ -12,7 +15,7 @@ def create_todo(text, user_id):
     todo = Todo.query.filter_by(user_id=user_id, text=text).first()
 
     if not todo:
-        new_todo = student.add_todo(text=text)
+        new_todo = student.add_todo(text=text, date_due=date_due)
         return new_todo
     return None
 
@@ -43,6 +46,19 @@ def toggle_todo(id):
 def get_all_todos():
     todos = Todo.query.order_by(Todo.id).all()
     return todos
+
+def get_todos_by_month(month, year):
+    start_date = datetime(year, month, 1)
+    end_date = datetime(year, month, 31, 23, 59, 59)
+    todos = Todo.query.filter(Todo.date_due >= start_date,
+                                 Todo.date_due <= end_date).all()
+
+def get_todos_by_due_date(year, month, day):
+    #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
+    date_object = date(year, month, day)
+    todos = Todo.query.filter(func.date(Todo.date_due) == date_object).all()
+    return todos
+    
 
 def get_all_todos_json():
     todos = Todo.query.all()

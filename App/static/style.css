@@ -35,3 +35,22 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     border-radius: 100%;
     scale: 1.;
 }
+
+.calendar-weekdays,
+.calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Seven equal columns for days */
+    gap: 1px; /* Optional gap between cells */
+}
+
+.date-cell {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    min-height: 80px; /* Ensure consistent row height */
+}
+
+.date-cell.empty {
+    background-color: #f0f0f0; /* Style for empty cells */
+    color: darkgrey;
+}
