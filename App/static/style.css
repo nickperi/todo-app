@@ -47,7 +47,11 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
-    min-height: 80px; /* Ensure consistent row height */
+    min-height: 100px; /* Ensure consistent row height */
+}
+
+.outline-clicked {
+  outline: 3px solid blue;
 }
 
 .date-cell.empty {

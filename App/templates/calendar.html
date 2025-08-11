@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% block title %}App Todos{% endblock %}
-{% block page %}App Todos{% endblock %}
+{% block title %}My Calendar{% endblock %}
+{% block page %}My Calendar{% endblock %}
 
 {{ super() }}
 
@@ -8,19 +8,15 @@
 
 <div class="calendar-container">
     <div class="calendar-header">
+        <h5 id="month-header" style="text-align: center;">{{months[month]}} {{year}}</h5>
         <select class="month">
-          <option value="1">January</option>
-          <option value="2">February</option>
-          <option value="3">March</option>
-          <option value="4">April</option>
-          <option value="5">May</option>
-          <option value="6">June</option>
-          <option value="7">July</option>
-          <option value="8">August</option>
-          <option value="9">September</option>
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
+            {% for monthKey, monthValue in months.items() %}
+                {% if monthKey == month %}
+                    <option value="{{monthKey}}" selected>{{monthValue}}</option>
+                {% else %}
+                    <option value="{{monthKey}}">{{monthValue}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
     </div>
 

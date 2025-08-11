@@ -41,6 +41,7 @@ class Todo(db.Model):
       "user_id": self.user_id,
       "text": self.text,
       "done": self.done,
+      "date_due": self.date_due.strftime("%Y-%m-%d")
     }
 
 

@@ -52,6 +52,16 @@ def get_todos_by_month(month, year):
     end_date = datetime(year, month, 31, 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
                                  Todo.date_due <= end_date).all()
+    return todos
+    
+def get_todos_by_month_json(month, year):
+    start_date = datetime(year, month, 1)
+    end_date = datetime(year, month, 31, 23, 59, 59)
+    todos = Todo.query.filter(Todo.date_due >= start_date,
+                                 Todo.date_due <= end_date).all()
+    todos = [todo.get_json() for todo in todos]
+    return todos
+    
 
 def get_todos_by_due_date(year, month, day):
     #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
