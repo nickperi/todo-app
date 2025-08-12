@@ -10,17 +10,6 @@ const monthNames = [
 
 setCalendarMonthDays(monthDropdown.value, 2025);
 
-calendarDates.addEventListener('click', function (e) {
-    const cell = e.target.closest('.date-cell');
-    if (cell) {
-        const days = document.querySelectorAll('.date-cell');
-        days.forEach(d => {
-            d.classList.remove('outline-clicked');
-        });
-        cell.classList.add('outline-clicked');
-    }
-});
-
 monthDropdown.addEventListener("change", (e) => {
      calendarDates.innerHTML = "";
 
@@ -97,16 +86,17 @@ function loadTodos(todos, key) {
 
     if(todos[key]) {
         todos[key].forEach(todo => {
-        let span = document.createElement('span');
-        span.className = `new badge ${colors[getRandomIntInclusive(0,4)]}`;
-        let todoLi = document.createElement('li');
-        console.log(`${key} ${todo}`);
-        todoLi.textContent = `${todo}`;
-        span.appendChild(todoLi);
-        todoList.appendChild(span);
-    });
-}
-   
+            let todoLi = document.createElement('li');
+            let span = document.createElement('span');
+            span.className = "task-badge";
+            span.style.backgroundColor = `${colors[getRandomIntInclusive(0,4)]}`;
+            console.log(`${key} ${todo}`);
+            span.textContent = `${todo}`;
+            todoLi.appendChild(span);
+            todoList.appendChild(todoLi);
+        });
+    }
+        
     return todoList;
 }
 
@@ -116,10 +106,14 @@ async function setCalendarMonthDays(month, year) {
     const startDay = getMonthStartDay(month, year);
 
     monthHeader.textContent = `${monthNames[month-1]} ${year}`;
+    const fragment = document.createDocumentFragment();
 
     for(let day=startDay-1; day>=0; day--) {
-         calendarDates.innerHTML += `
-        <div class="date-cell empty">${prevNumDays-day}</div>`;
+        const dateCellEmpty = document.createElement('div');
+        dateCellEmpty.classList.add('date-cell');
+        dateCellEmpty.classList.add('empty');
+        dateCellEmpty.textContent = `${prevNumDays-day}`;
+        fragment.appendChild(dateCellEmpty);
     }
 
     for(let day=0; day<numDays; day++) {
@@ -127,25 +121,42 @@ async function setCalendarMonthDays(month, year) {
         let todosByDate = sortTodosByDate(todos);
         const dateKey = formatDate(`${year}-${month}-${day}`);
 
+        const dateCell = document.createElement('div');
+        dateCell.id = `todos-${year}-${month}-${day}`;
+        dateCell.classList.add('date-cell');
+
+        const todosLink = document.createElement('a');
+        todosLink.href = `/todos/${year}_${month}_${day+1}`;
+        todosLink.textContent = `${day+1}`;
+
+        dateCell.appendChild(todosLink);
+
         if(todosByDate[dateKey]) {
             const todoList = loadTodos(todosByDate, dateKey);
-            calendarDates.innerHTML += `
-        <div id="todos-${year}-${month}-${day}" class="date-cell"> <a href="/todos/${year}_${month}_${day+1}">${day+1}</a> </div>`;
-            document.getElementById(`todos-${year}-${month}-${day}`).appendChild(todoList);
+            dateCell.appendChild(todoList);
         }
-        else {
-            calendarDates.innerHTML += `
-         <div id="todos-${year}-${month}-${day}" class="date-cell"> <a href="/todos/${year}_${month}_${day+1}">${day+1}</a> </div>`;
-        }
+
+        dateCell.addEventListener("click", () => {
+            const days = document.querySelectorAll('.date-cell');
+            
+            days.forEach(d => {
+                d.classList.remove('outline-clicked');
+            }); 
+            dateCell.classList.add('outline-clicked');
+        });
+
+        fragment.appendChild(dateCell);
     }
+
+    calendarDates.appendChild(fragment);
 }
 
-function selectDay(id) {
-    const day = document.getElementById(id);
+function selectDay(day) {
     const days = document.querySelectorAll('.date-cell');
+    
     days.forEach(d => {
         d.classList.remove('outline-clicked');
-    });
+    }); 
     day.classList.add('outline-clicked');
 }
 

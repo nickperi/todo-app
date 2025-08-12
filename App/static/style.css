@@ -12,6 +12,10 @@ body {
   color: white;
 }
 
+.task-badge {
+  color: white;
+}
+
 /*input:not([type]):focus:not([readonly])+label,input[type=text]:not(.browser-default):focus:not([readonly])+label,input[type=password]:not(.browser-default):focus:not([readonly])+label,input[type=email]:not(.browser-default):focus:not([readonly])+label,input[type=url]:not(.browser-default):focus:not([readonly])+label,input[type=time]:not(.browser-default):focus:not([readonly])+label,input[type=date]:not(.browser-default):focus:not([readonly])+label,input[type=datetime]:not(.browser-default):focus:not([readonly])+label,input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label,input[type=tel]:not(.browser-default):focus:not([readonly])+label,input[type=number]:not(.browser-default):focus:not([readonly])+label,input[type=search]:not(.browser-default):focus:not([readonly])+label,textarea.materialize-textarea:focus:not([readonly])+label {
     color: #4CAF50;
 }*/
@@ -36,6 +40,12 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     scale: 1.;
 }
 
+
+  .calendar-header {
+        background-color: #4CAF50; /* Green header */
+        color: white;
+    }
+
 .calendar-weekdays,
 .calendar-dates {
     display: grid;
@@ -45,16 +55,16 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 
 .date-cell {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid deepskyblue;
     text-align: center;
-    min-height: 100px; /* Ensure consistent row height */
+    min-height: fit-content; /* Ensure consistent row height */
 }
 
 .outline-clicked {
-  outline: 3px solid blue;
+  border: 3px solid mediumblue;
 }
 
 .date-cell.empty {
-    background-color: #f0f0f0; /* Style for empty cells */
+    background-color: gray; /* Style for empty cells */
     color: darkgrey;
 }
