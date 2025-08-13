@@ -40,23 +40,27 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     scale: 1.;
 }
 
-
-  .calendar-header {
-        background-color: #4CAF50; /* Green header */
-        color: white;
-    }
-
-.calendar-weekdays,
-.calendar-dates {
+.calendar-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* Seven equal columns for days */
     gap: 1px; /* Optional gap between cells */
 }
 
+.calendar-header {
+  background-color: #4CAF50; /* Green header */
+  color: white;
+}
+
+.calendar-weekdays,
+.calendar-dates {
+  display: contents;
+}
+
 .date-cell {
     padding: 10px;
     border: 1px solid deepskyblue;
-    text-align: center;
+    text-align: left;
+    min-width:max-content;
     min-height: fit-content; /* Ensure consistent row height */
 }
 
