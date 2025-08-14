@@ -1,3 +1,4 @@
+import calendar
 from datetime import date, datetime
 
 from sqlalchemy import func
@@ -49,14 +50,14 @@ def get_all_todos():
 
 def get_todos_by_month(month, year):
     start_date = datetime(year, month, 1)
-    end_date = datetime(year, month, 31, 23, 59, 59)
+    end_date = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
                                  Todo.date_due <= end_date).all()
     return todos
     
 def get_todos_by_month_json(month, year):
     start_date = datetime(year, month, 1)
-    end_date = datetime(year, month, 31, 23, 59, 59)
+    end_date = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
                                  Todo.date_due <= end_date).all()
     todos = [todo.get_json() for todo in todos]

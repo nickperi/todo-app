@@ -58,8 +58,8 @@ def create_todo_action(year_month_day):
 @jwt_required()
 def show_todos_for_month():
     todos = get_todos_by_month(month=datetime.now().month, year=datetime.now().year)
-    months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August' , 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
-    return render_template('calendar.html', todos=todos, current_user=jwt_current_user, months=months, month=datetime.now().month, year=datetime.now().year)
+    months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
+    return render_template('calendar.html', todos=todos, current_user=jwt_current_user, months=months, month=datetime.now().month, year=datetime.now().year, day=datetime.now().day)
 
 
 @todo_views.route('/todos/<int:id>', methods=['GET'])
