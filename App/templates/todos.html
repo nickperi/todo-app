@@ -20,12 +20,32 @@
           </div>
 
            <div class="input-field col s6">
-            {% if day < 10 %}
-              <input placeholder="{{year}}-{{month}}-0{{day}}T{{hour}}:{{minute}}" value="{{year}}-{{month}}-0{{day}}T{{hour}}:{{minute}}" name="date-time" type="datetime" class="validate" readonly>
-            {% else %}
-              <input placeholder="{{year}}-{{month}}-{{day}}T{{hour}}:{{minute}}" value="{{year}}-{{month}}-{{day}}T{{hour}}:{{minute}}" name="date-time" type="datetime" class="validate" readonly>
-            {% endif %}
-              <label for="date-time">Due Date</label>
+
+              {% if month < 10 %}
+                <input value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
+              {% elif day < 10 %}
+                <input value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+              {% elif day < 10 and month < 10 %}
+                <input value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+              {% else %}
+                <input value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
+              {% endif %}
+
+              <input name="due-time" type="time" class="validate">
+              <label for="due-date">Due Date & Time</label>
+          </div>
+
+          <div class="input-field col s6">
+            <select name="category" class="validate">
+              <option value="personal">Personal</option>
+              <option value="work">Work</option>
+              <option value="school">School</option>
+              <option value="shopping">Shopping</option>
+              <option value="urgent">Urgent</option>
+              <option value="reminder">Reminder</option>
+              <option value="other">Other</option>
+            </select>
+            <label for="category">Category</label>
           </div>
         </div>
       
@@ -46,7 +66,7 @@
         <table>
           <thead>
             <tr>
-              <th>Task</th><th>Username</th><th>Done</th>
+              <th>Task</th><th>Username</th><th>Done</th><th>Edit</th><th>Mark as Done</th><th>Duration</th><th>Date Completed</th>
             </tr>
           </thead>
 
@@ -68,6 +88,14 @@
                   <td id="task-checkbox-{{todo.id}}"><i style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
                 {% else %}
                   <td id="task-checkbox-{{todo.id}}"><i style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
+                {% endif %}
+
+                <td>{{todo.date_created}} - {{todo.date_due}} ({{calculate_time_elapsed(todo.date_due, todo.date_created)}})</td>
+                 
+                {% if todo.done %}
+                  <td id="task-completed-{{todo.id}}">{{todo.date_completed}}</td>
+                {% else %}
+                  <td id="task-completed-{{todo.id}}">_</td>
                 {% endif %}
                 
               </tr>

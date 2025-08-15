@@ -10,7 +10,7 @@ const monthNames = [
 ];
 
 const currentYear = parseInt(document.getElementById('current-year').textContent);
-const currentDay = parseInt(document.getElementById('current-day').textContent);
+const currentDay = new Date().getDate();
 const currentMonthName = document.getElementById('current-month').textContent;
 
 setCalendarMonthDays(parseInt(monthDropdown.value), currentYear);
@@ -101,35 +101,33 @@ function sortTodosByDate(todos) {
     for(let todo of todos) {
         const dueDate = todo.date_due;
         //console.log(dueDate);
-
-        if(todo.text >= 50) {
-            (map[dueDate] ||= []).push(todo.text.slice(0, 50) + "...");
-        } else {
-            (map[dueDate] ||= []).push(todo.text);
-        }
+        console.log(todo.category);
+        (map[dueDate] ||= []).push(todo);
     }
     return map;
 }
 
 function loadTodos(todos, key) {
     let todoList = document.createElement('ul');
-    colors = ['blue', 'green', 'crimson', 'orange', 'purple', 'firebrick'];
-    let i=0;
+    const categoryColors = {
+        work:'#0D6EFD', 
+        personal:'#198754', 
+        urgent:'#DC3545', 
+        reminder:'#ff6600ef', 
+        school: "#a3118bff",
+        shopping: "#E91E63", 
+        other: "#9E9E9E"
+    };
 
     if(todos[key]) {
         todos[key].forEach(todo => {
             let todoLi = document.createElement('li');
             let span = document.createElement('span');
             span.className = "task-badge";
-            span.style.backgroundColor = `${colors[i]}`;
-            //console.log(`${key} ${todo}`);
-            span.textContent = `${todo}`;
+            span.style.backgroundColor = `${categoryColors[todo.category]}`;
+            span.textContent = `${todo.category}`;
             todoLi.appendChild(span);
             todoList.appendChild(todoLi);
-            i++;
-
-            if(i == colors.length)
-                i=0;
         });
     }
         
@@ -144,8 +142,7 @@ async function setCalendarMonthDays(month, year) {
 
     const currentMonth = getMonthValue(monthNames, currentMonthName);
 
-    monthHeader.innerHTML = `<span id="current-day">${currentDay}</span>
-            <span id ="current-month">${monthNames[month-1]}</span> 
+    monthHeader.innerHTML = `<span id ="current-month">${monthNames[month-1]}</span> 
             <span id="current-year">${year}</span>`;
 
     const fragment = document.createDocumentFragment();
@@ -165,6 +162,7 @@ async function setCalendarMonthDays(month, year) {
 
         const dateCell = document.createElement('div');
         const dayText = document.createElement('span');
+        dayText.className = 'day-text';
         dayText.textContent = `${day+1} `;
         dateCell.id = `todos-${year}-${month}-${day}`;
         dateCell.classList.add('date-cell');
@@ -173,9 +171,8 @@ async function setCalendarMonthDays(month, year) {
         todosLink.href = `/todos/${year}_${month}_${day+1}`;
 
         if(day===currentDay-1 && month===currentMonth && year===currentYear) {
-            dayText.style.backgroundColor = "navy";
-            dayText.style.color = "lightblue";
-            dayText.style.borderRadius = "75%";
+            dayText.style.backgroundColor = "springgreen";
+            dayText.style.color = "navy";
         }
         dateCell.appendChild(dayText);
 

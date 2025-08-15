@@ -14,6 +14,7 @@ from App.controllers import (
     get_todos_by_month_json,
     get_todos_by_month,
     get_all_todos_json,
+    calculate_time_elapsed,
     jwt_required
 )
 
@@ -43,14 +44,21 @@ def get_todos_by_date(year_month_day):
     month = int(date_values[1])
     day = int(date_values[2])
     todos = get_todos_by_due_date(year, month, day)
-    return render_template('todos.html', todos=todos, current_user=jwt_current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
+    return render_template('todos.html', calculate_time_elapsed=calculate_time_elapsed, todos=todos, current_user=jwt_current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
 
 @todo_views.route('/todos/<string:year_month_day>', methods=['POST'])
 @jwt_required()
 def create_todo_action(year_month_day):
     data = request.form
-    todo = create_todo(data['text'], jwt_current_user.id, data['date-time'])
-    flash(f"Todo {todo.id} created by User {jwt_current_user.id}!")
+    due_date_time = f"{data['due-date']} {data['due-time']}"
+    dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
+    todo = create_todo(data['text'], jwt_current_user.id, dt, data['category'])
+
+    if todo:
+        flash(f"Todo {todo.id} created by User {jwt_current_user.id} due on {due_date_time}!")
+    else:
+        flash(f"Failed to create todo !")
+
     return redirect(url_for('todo_views.get_todos_by_date', year_month_day=year_month_day))
 
 
@@ -84,7 +92,7 @@ def toggle_todo_action(id):
     else:
         flash(f"Todo {todo.id} marked as incomplete!")
         
-    return jsonify({'success':True, 'done':todo.done})
+    return jsonify({'success':True, 'done':todo.done, 'date_completed':todo.date_completed})
 
 
 @todo_views.route('/api/todos', methods=['GET'])

@@ -8,14 +8,17 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     text = db.Column(db.String(120), nullable=False)
+    category = db.Column(db.String(120), default="personal")
     done = db.Column(db.Boolean, default=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_due = db.Column(db.DateTime, default=datetime.now)
+    date_completed = db.Column(db.DateTime)
 
-    def __init__(self, text, user_id, date_due):
+    def __init__(self, text, user_id, date_due, category):
         self.text = text
         self.user_id = user_id
         self.date_due = date_due
+        self.category = category
 
 
     def toggle(self):
@@ -41,7 +44,10 @@ class Todo(db.Model):
       "user_id": self.user_id,
       "text": self.text,
       "done": self.done,
-      "date_due": self.date_due.strftime("%Y-%m-%d")
+      "category": self.category,
+      "date_created": self.date_created,
+      "date_due": self.date_due.strftime("%Y-%m-%d"),
+      "date_completed": self.date_completed
     }
 
 

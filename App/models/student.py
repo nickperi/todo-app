@@ -18,8 +18,8 @@ class Student(User):
         super().__init__(username, password)
         self.email = email
 
-    def add_todo(self, text, date_due):
-        new_todo = Todo(text=text, user_id=self.id, date_due=date_due)
+    def add_todo(self, text, date_due, category):
+        new_todo = Todo(text=text, user_id=self.id, date_due=date_due, category=category)
         self.todos.append(new_todo)
         db.session.add(self)
         db.session.commit()

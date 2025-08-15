@@ -57,10 +57,16 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 
 .date-cell {
     padding: 20px;
-    border: 1px solid lightblue;
+    border: 1px solid darkslateblue;
     text-align: center;
     min-width:max-content;
     min-height: fit-content; /* Ensure consistent row height */
+    background-color: rgb(28, 28, 85);
+}
+
+.day-text {
+  padding: 5px;
+  border-radius: 100%;
 }
 
 #current-day, #current-month, #current-year {
@@ -68,10 +74,10 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 }
 
 .outline-clicked {
-  border: 3px solid mediumblue;
+  border: 3px solid cyan;
 }
 
 .date-cell.empty {
-    background-color: gray; /* Style for empty cells */
-    color: darkgrey;
+    background-color: lightgray; /* Style for empty cells */
+    color:darkgrey;
 }

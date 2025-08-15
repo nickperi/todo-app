@@ -6,7 +6,7 @@ from App.models import Todo, Student, User
 from App.database import db
 
 
-def create_todo(text, user_id, date_due):
+def create_todo(text, user_id, date_due, category):
 
     student = Student.query.filter_by(id=user_id).first()
 
@@ -16,7 +16,7 @@ def create_todo(text, user_id, date_due):
     todo = Todo.query.filter_by(user_id=user_id, text=text).first()
 
     if not todo:
-        new_todo = student.add_todo(text=text, date_due=date_due)
+        new_todo = student.add_todo(text=text, date_due=date_due, category=category)
         return new_todo
     return None
 
@@ -38,6 +38,12 @@ def toggle_todo(id):
 
     if todo:
         todo.done = not todo.done
+
+        if todo.done:
+            todo.date_completed = datetime.now()
+        else:
+            todo.date_completed = None
+            
         db.session.add(todo)
         db.session.commit()
         return todo
@@ -79,3 +85,20 @@ def get_all_todos_json():
     
     todos = [todo.get_json() for todo in todos]
     return todos
+
+def calculate_time_elapsed(date_due, date_created):
+    diff = date_due - date_created
+    seconds = diff.total_seconds()
+
+    if(seconds < 60):
+        return f"{int(seconds)}s"
+    elif(seconds < 3600):
+        return f"{int(seconds//60)}m"
+    elif(seconds < 86400):
+        return f"{int(seconds//3600)}h"
+    elif(seconds < 604800):
+        return f"{int(seconds//86400)}d"
+    elif(seconds < 2419200):
+        return f"{int(seconds//604800)}w"
+    else:
+        return f"{diff}"
