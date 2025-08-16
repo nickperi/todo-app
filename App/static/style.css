@@ -7,11 +7,6 @@ body {
   background-color: darkslategray;
 }
 
-.nav-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
 .table-container {
   width: 100%;
   overflow-x: auto; /* allows horizontal scroll when needed */
@@ -104,16 +99,6 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 .date-cell.empty {
     background-color: lightgray; /* Style for empty cells */
     color:darkgrey;
-}
-
-
-@media (max-width: 768px) {
-  .nav-wrapper {
-    display: flex;
-    flex-direction: row;
-    overflow: auto;
-    flex-wrap: wrap;
-  }
 }
 
 

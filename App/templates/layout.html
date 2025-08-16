@@ -16,9 +16,11 @@
   </head>
   <body>
     
-      <nav class="purple">
+      <nav class="purple nav-extended">
           <div class="nav-wrapper">
               <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
               <ul id="nav-mobile" class="left hide-on-med-and-down">
                   <li><a href="/">Home</a></li>
                   <li><a href="/users">Users</a></li>
@@ -27,8 +29,18 @@
                     <li><a href="/identify">Identify</a></li>
                     <li><a href="/todos-calendar">Todos</a></li>
                   {% endif %}
-                 
               </ul>
+              
+              <ul id="mobile-demo" class="sidenav left">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/users">Users</a></li>
+                  <li><a href="/students">Students</a></li>
+                  {% if is_authenticated %}
+                    <li><a href="/identify">Identify</a></li>
+                    <li><a href="/todos-calendar">Todos</a></li>
+                  {% endif %}
+              </ul>
+              
               {% if is_authenticated %}
               <ul id="nav-mobile" class="right">
                 <li><a href="/logout">Logout</a></li>
