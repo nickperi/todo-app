@@ -10,7 +10,6 @@ body {
 .nav-wrapper {
   display: flex;
   flex-direction: row;
-  overflow: scroll;
 }
 
 .table-container {
@@ -112,7 +111,7 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
   .nav-wrapper {
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    flex-wrap: wrap;
   }
 }
 
