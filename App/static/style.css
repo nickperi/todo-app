@@ -10,6 +10,7 @@ body {
 .nav-wrapper {
   display: flex;
   flex-direction: row;
+  overflow: scroll;
   flex-wrap: wrap;
 }
 
