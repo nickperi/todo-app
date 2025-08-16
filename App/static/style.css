@@ -111,6 +111,7 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
   .nav-wrapper {
     display: flex;
     flex-direction: row;
+    overflow: auto;
     flex-wrap: wrap;
   }
 }
