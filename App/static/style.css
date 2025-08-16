@@ -103,6 +103,15 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 
 
 @media (max-width: 768px) {
+  .nav-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+
+@media (max-width: 768px) {
     .calendar-container {
         max-width: 100%;
         padding: 0 10px;
