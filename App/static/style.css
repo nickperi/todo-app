@@ -7,6 +7,12 @@ body {
   background-color: darkslategray;
 }
 
+.nav-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .table-container {
   width: 100%;
   overflow-x: auto; /* allows horizontal scroll when needed */
