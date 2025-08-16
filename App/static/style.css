@@ -7,6 +7,23 @@ body {
   background-color: darkslategray;
 }
 
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* allows horizontal scroll when needed */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+table th, table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
 .task-input {
   background-color:transparent;
   color:white;
@@ -44,6 +61,8 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* Seven equal columns for days */
     gap: 1px; /* Optional gap between cells */
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .calendar-header {
@@ -80,4 +99,48 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 .date-cell.empty {
     background-color: lightgray; /* Style for empty cells */
     color:darkgrey;
+}
+
+
+@media (max-width: 768px) {
+    .calendar-container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .calendar-weekdays span,
+    .calendar-dates div {
+        font-size: 12px; /* shrink text */
+        padding: 5px;
+    }
+
+    .calendar-header #month-header {
+        font-size: 18px; /* smaller month-year header */
+    }
+
+    .months-dropdown {
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
+
+/* Small tables shrink nicely */
+@media (max-width: 768px) {
+  table.small-table th, 
+  table.small-table td {
+    font-size: 12px;
+    padding: 4px;
+  }
+}
+
+/* Large tables scroll instead of shrinking */
+@media (max-width: 768px) {
+  .table-container.large-table {
+    overflow-x: auto;
+  }
+
+  table.large-table {
+    min-width: 600px; /* force scroll instead of shrinking too much */
+  }
 }

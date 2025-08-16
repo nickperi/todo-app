@@ -63,10 +63,11 @@
         <p>No tasks added yet</p>
 
       {% else %}
-        <table>
+      <div class="table-container">
+        <table class="large-table">
           <thead>
             <tr>
-              <th>Task</th><th>Username</th><th>Done</th><th>Edit</th><th>Mark as Done</th><th>Duration</th><th>Date Completed</th>
+              <th>Task</th><th>Edit</th><th>Username</th><th>Duration</th><th>Deadline</th><th>Done</th><th>Mark as Done</th><th>Date Completed</th><th>Time Taken</th>
             </tr>
           </thead>
 
@@ -74,34 +75,36 @@
             {% for todo in todos %}
               <tr>
                 <td id="task-{{todo.id}}-text"><input class="task-input" id="task-{{todo.id}}-input" type="text" readonly value="{{todo.text}}" style="border-bottom: none;"></input></td>
+                <td id="edit-button-{{todo.id}}"><a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('{{todo.id}}')">edit</a></td>
                 <td>{{todo.get_username()}}</td>
+
+                <td>{{calculate_time_elapsed(todo.date_due, todo.date_created)}}</td>
+                <td>{{todo.date_due.strftime("%I:%M %p")}}</td>
 
                 {% if todo.done %}
                   <td id="done-{{todo.id}}"><span>Yes</span></td>
+                  <td id="task-checkbox-{{todo.id}}"><i style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
+                 
+                  {% if todo.date_completed %}
+                    <td id="task-completed-{{todo.id}}">{{todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")}}</td>
+                  {% endif %}
+                  
+                  {% if todo.date_completed %}
+                    <td>{{calculate_time_elapsed(todo.date_completed, todo.date_created)}}</td>
+                  {% endif %}
+
                 {% else %}
                   <td id="done-{{todo.id}}"><span>No</span></td>
-                {% endif %}
-
-                <td id="edit-button-{{todo.id}}"><a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('{{todo.id}}')">edit</a></td>
-
-                {% if todo.done %}
-                  <td id="task-checkbox-{{todo.id}}"><i style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
-                {% else %}
                   <td id="task-checkbox-{{todo.id}}"><i style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
-                {% endif %}
-
-                <td>{{todo.date_created}} - {{todo.date_due}} ({{calculate_time_elapsed(todo.date_due, todo.date_created)}})</td>
-                 
-                {% if todo.done %}
-                  <td id="task-completed-{{todo.id}}">{{todo.date_completed}}</td>
-                {% else %}
                   <td id="task-completed-{{todo.id}}">_</td>
+                  <td>_</td>
                 {% endif %}
                 
-              </tr>
-            {% endfor %}
-          <tbody>
-        </table>
+                </tr>
+              {% endfor %}
+            <tbody>
+          </table>
+      </div>
 
       {% endif %}
     </div>

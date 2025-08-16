@@ -40,7 +40,7 @@ def toggle_todo(id):
         todo.done = not todo.done
 
         if todo.done:
-            todo.date_completed = datetime.now()
+            todo.date_completed = datetime.now().strftime("%a, %b %d, %Y %I:%M %p")
         else:
             todo.date_completed = None
             
@@ -74,6 +74,13 @@ def get_todos_by_due_date(year, month, day):
     #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
     date_object = date(year, month, day)
     todos = Todo.query.filter(func.date(Todo.date_due) == date_object).all()
+    return todos
+
+def get_todos_by_due_date_json(year, month, day):
+    #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
+    date_object = date(year, month, day)
+    todos = Todo.query.filter(func.date(Todo.date_due) == date_object).all()
+    todos = [todo.get_json() for todo in todos]
     return todos
     
 

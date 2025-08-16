@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
+from flask import Blueprint, json, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from datetime import datetime
 
@@ -88,11 +88,13 @@ def toggle_todo_action(id):
     todo = toggle_todo(id)
 
     if todo.done:
+        date_completed = todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")
         flash(f"Todo {todo.id} marked as done!")
     else:
-        flash(f"Todo {todo.id} marked as incomplete!")
+        date_completed = None
+        flash(f"Todo {todo.id} marked as incomplete!")      
         
-    return jsonify({'success':True, 'done':todo.done, 'date_completed':todo.date_completed})
+    return jsonify({'success':True, 'done':todo.done, 'date_completed':date_completed})
 
 
 @todo_views.route('/api/todos', methods=['GET'])

@@ -41,7 +41,8 @@
         <p>No students</p>
 
       {% else %}
-        <table>
+      <div class="table-container">
+        <table class="small-table">
           <thead>
             <tr>
               <th>Id</th><th>Username</th><th>Email</th><th>To-do</th>
@@ -64,6 +65,7 @@
             {% endfor %}
           <tbody>
         </table>
+        </div>
 
       {% endif %}
     </div>
