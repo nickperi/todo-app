@@ -20,18 +20,8 @@
           <div class="nav-wrapper">
               <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
               <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
-              <ul id="nav-mobile" class="left hide-on-med-and-down">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/users">Users</a></li>
-                  <li><a href="/students">Students</a></li>
-                  {% if is_authenticated %}
-                    <li><a href="/identify">Identify</a></li>
-                    <li><a href="/todos-calendar">Todos</a></li>
-                  {% endif %}
-              </ul>
               
-              <ul id="mobile-demo" class="sidenav left">
+              <ul id="mobile-demo" class="sidenav">
                   <li><a href="/">Home</a></li>
                   <li><a href="/users">Users</a></li>
                   <li><a href="/students">Students</a></li>
@@ -40,6 +30,18 @@
                     <li><a href="/todos-calendar">Todos</a></li>
                   {% endif %}
               </ul>
+
+              <div> 
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                  <li class="options"><a class="{{ 'active-tab' if active_tab == 'home' else '' }}" href="/" target="_self">Home</a></li>
+                  <li class="options"><a class="{{ 'active-tab' if active_tab == 'users' else '' }}" href="/users" target="_self">Users</a></li>
+                  <li class="options"><a class="{{ 'active-tab' if active_tab == 'students' else '' }}" href="/students" target="_self">Students</a></li>
+                  {% if is_authenticated %}
+                    <li class="options"><a class="{{ 'active-tab' if active_tab == 'identify' else '' }}" href="/identify" target="_self">Identify</a></li>
+                    <li class="options"><a class="{{ 'active-tab' if active_tab == 'todos-calendar' else '' }}" href="/todos-calendar" target="_self">Todos</a></li>
+                  {% endif %}
+                </ul>
+              </div>
               
               {% if is_authenticated %}
               <ul id="nav-mobile" class="right">
@@ -60,6 +62,7 @@
               {% endif %}
               
           </div>
+
       </nav>
       <style>
           .navbar-form label {
@@ -82,6 +85,18 @@
               {% endfor %}
           {% endif %}
         {% endwith %}
+    </script>
+
+    <script>
+      function activateOption(optionId) {
+        const option = document.getElementById(optionId);
+        const options = document.querySelectorAll('options');
+
+        for(o in options) {
+          o.classList.replace('active', '');
+        }
+        option.classList.add('active');
+      }
     </script>
        
  

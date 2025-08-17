@@ -1,11 +1,13 @@
 from flask import Blueprint, json, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from flask_jwt_extended import jwt_required, current_user
 from datetime import datetime
 
 from.index import index_views
 
 from App.controllers import (
     create_todo,
+    get_all_users,
+    get_all_students,
     get_todo,
     update_todo,
     toggle_todo,
@@ -22,11 +24,23 @@ from App.controllers import (
 
 todo_views = Blueprint('todo_views', __name__, template_folder='../templates')
 
+'''@todo_views.route('/dashboard')
+@jwt_required()
+def display_dashboard():
+    users = get_all_users()
+    students = get_all_students()
+    message=f"You are logged in as {current_user.id} - {current_user.username}"
+    todos = get_todos_by_month(month=datetime.now().month, year=datetime.now().year)
+    months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
+    return render_template('dashboard.html', active_tab='todos-calendar', users=users, students=students, message=message, todos=todos, current_user=current_user, months=months, month=datetime.now().month, year=datetime.now().year, day=datetime.now().day)
+'''
+
+
 @todo_views.route('/todos', methods=['GET'])
 @jwt_required()
 def get_todo_page():
     todos = get_all_todos()
-    return render_template('todos.html', todos=todos, current_user=jwt_current_user)
+    return render_template('todos.html', todos=todos, current_user=current_user)
 
 
 @todo_views.route('/todos/<int:year>/<int:month>', methods=['GET'])
@@ -44,7 +58,7 @@ def get_todos_by_date(year_month_day):
     month = int(date_values[1])
     day = int(date_values[2])
     todos = get_todos_by_due_date(year, month, day)
-    return render_template('todos.html', calculate_time_elapsed=calculate_time_elapsed, todos=todos, current_user=jwt_current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
+    return render_template('todos.html', calculate_time_elapsed=calculate_time_elapsed, todos=todos, current_user=current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
 
 @todo_views.route('/todos/<string:year_month_day>', methods=['POST'])
 @jwt_required()
@@ -52,10 +66,10 @@ def create_todo_action(year_month_day):
     data = request.form
     due_date_time = f"{data['due-date']} {data['due-time']}"
     dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
-    todo = create_todo(data['text'], jwt_current_user.id, dt, data['category'])
+    todo = create_todo(data['text'], current_user.id, dt, data['category'])
 
     if todo:
-        flash(f"Todo {todo.id} created by User {jwt_current_user.id} due on {due_date_time}!")
+        flash(f"Todo {todo.id} created by User {current_user.id} due on {due_date_time}!")
     else:
         flash(f"Failed to create todo !")
 
@@ -67,7 +81,7 @@ def create_todo_action(year_month_day):
 def show_todos_for_month():
     todos = get_todos_by_month(month=datetime.now().month, year=datetime.now().year)
     months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
-    return render_template('calendar.html', todos=todos, current_user=jwt_current_user, months=months, month=datetime.now().month, year=datetime.now().year, day=datetime.now().day)
+    return render_template('calendar.html', todos=todos, current_user=current_user, months=months, month=datetime.now().month, year=datetime.now().year, day=datetime.now().day, active_tab='todos-calendar')
 
 
 @todo_views.route('/todos/<int:id>', methods=['GET'])

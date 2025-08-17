@@ -15,7 +15,7 @@ student_views = Blueprint('student_views', __name__, template_folder='../templat
 @student_views.route('/students', methods=['GET'])
 def get_student_page():
     students = get_all_students()
-    return render_template('students.html', students=students)
+    return render_template('students.html', students=students, active_tab='students')
 
 @student_views.route('/students', methods=['POST'])
 def create_student_action():

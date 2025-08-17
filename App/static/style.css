@@ -7,6 +7,16 @@ body {
   background-color: darkslategray;
 }
 
+.options a:hover {
+  background-color: blueviolet;
+}
+
+.active-tab {
+  background-color:darkmagenta;
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
 .table-container {
   width: 100%;
   overflow-x: auto; /* allows horizontal scroll when needed */

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, flash, redirect, url_for
+from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies
 
 
@@ -20,19 +20,19 @@ Page/Action Routes
 @auth_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
-    return render_template('users.html', users=users)
+    return render_template('users.html', users=users, active_tab='users')
 
 @auth_views.route('/identify', methods=['GET'])
 @jwt_required()
 def identify_page():
-    return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}")
-    
+    return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}", active_tab='identify')
+
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
     data = request.form
     token = login(data['username'], data['password'])
-    response = redirect(request.referrer)
+    response = redirect(url_for('index_views.index_page'))
     if not token:
         flash('Bad username or password given'), 401
     else:
