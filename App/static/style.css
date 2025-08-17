@@ -91,11 +91,17 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     min-width:max-content;
     min-height: fit-content; /* Ensure consistent row height */
     background-color: rgb(28, 28, 85);
+    cursor: pointer;
 }
 
 .day-text {
   padding: 5px;
   border-radius: 100%;
+  pointer-events: none;
+}
+
+.todo-list {
+  pointer-events: none;
 }
 
 #current-day, #current-month, #current-year {

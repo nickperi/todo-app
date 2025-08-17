@@ -178,6 +178,7 @@ async function setCalendarMonthDays(month, year) {
 
         if(todosByDate[dateKey]) {
             const todoList = loadTodos(todosByDate, dateKey);
+            todoList.className = "todo-list";
             dateCell.appendChild(todoList);
         }
 
