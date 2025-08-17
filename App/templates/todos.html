@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% block title %}App Todos{% endblock %}
-{% block page %}App Todos{% endblock %}
+{% block title %}Todos due on {{date.strftime("%a, %b %d, %Y")}}{% endblock %}
+{% block page %}Todos due on {{date.strftime("%a, %b %d, %Y")}}{% endblock %}
 
 {{ super() }}
 

@@ -58,7 +58,7 @@ def get_todos_by_date(year_month_day):
     month = int(date_values[1])
     day = int(date_values[2])
     todos = get_todos_by_due_date(year, month, day)
-    return render_template('todos.html', calculate_time_elapsed=calculate_time_elapsed, todos=todos, current_user=current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
+    return render_template('todos.html', calculate_time_elapsed=calculate_time_elapsed, date=datetime(year, month, day), todos=todos, current_user=current_user, year=year, month=month, day=day, hour=datetime.now().hour, minute=datetime.now().minute)
 
 @todo_views.route('/todos/<string:year_month_day>', methods=['POST'])
 @jwt_required()
