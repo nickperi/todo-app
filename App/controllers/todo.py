@@ -50,6 +50,18 @@ def toggle_todo(id):
     return None
 
 
+def changeCategory(id, category):
+    todo = get_todo(id)
+
+    if todo:
+        todo.category = category
+        db.session.add(todo)
+        db.session.commit()
+        return todo
+    return None
+
+
+
 def get_all_todos():
     todos = Todo.query.order_by(Todo.id).all()
     return todos

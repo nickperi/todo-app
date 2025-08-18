@@ -39,8 +39,21 @@ table th, table td {
   color:white;
 }
 
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .task-badge {
   color: white;
+  border-radius: 37.5%;
+  padding: 4px 5px 4px 5px;
+}
+
+ul.dropdown-content.select-dropdown {
+  max-height: 100px;   /* adjust height as needed */
+  overflow-y: auto;    /* enable vertical scroll */
 }
 
 /*input:not([type]):focus:not([readonly])+label,input[type=text]:not(.browser-default):focus:not([readonly])+label,input[type=password]:not(.browser-default):focus:not([readonly])+label,input[type=email]:not(.browser-default):focus:not([readonly])+label,input[type=url]:not(.browser-default):focus:not([readonly])+label,input[type=time]:not(.browser-default):focus:not([readonly])+label,input[type=date]:not(.browser-default):focus:not([readonly])+label,input[type=datetime]:not(.browser-default):focus:not([readonly])+label,input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label,input[type=tel]:not(.browser-default):focus:not([readonly])+label,input[type=number]:not(.browser-default):focus:not([readonly])+label,input[type=search]:not(.browser-default):focus:not([readonly])+label,textarea.materialize-textarea:focus:not([readonly])+label {
@@ -84,6 +97,10 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
   display: contents;
 }
 
+.calendar-container, .calendar-dates {
+  margin: auto;
+}
+
 .date-cell {
     padding: 20px;
     border: 1px solid darkslateblue;
@@ -95,7 +112,7 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 }
 
 .day-text {
-  padding: 5px;
+  padding: 3px 5px 3px 5px;
   border-radius: 100%;
   pointer-events: none;
 }

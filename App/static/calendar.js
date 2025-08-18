@@ -109,6 +109,7 @@ function sortTodosByDate(todos) {
 
 function loadTodos(todos, key) {
     let todoList = document.createElement('ul');
+    todoList.className = 'todo-list';
     const categoryColors = {
         work:'#0D6EFD', 
         personal:'#198754', 

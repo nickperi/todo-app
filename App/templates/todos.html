@@ -67,7 +67,7 @@
         <table class="large-table">
           <thead>
             <tr>
-              <th>Task</th><th>Edit</th><th>Username</th><th>Duration</th><th>Deadline</th><th>Done</th><th>Mark as Done</th><th>Date Completed</th><th>Time Taken</th>
+              <th>Task</th><th>Edit Text</th><th>Category</th><th>Edit Category</th><th>Username</th><th>Duration</th><th>Deadline</th><th>Done</th><th>Mark as Done</th><th>Date Completed</th><th>Time Taken</th>
             </tr>
           </thead>
 
@@ -76,6 +76,21 @@
               <tr>
                 <td id="task-{{todo.id}}-text"><input class="task-input" id="task-{{todo.id}}-input" type="text" readonly value="{{todo.text}}" style="border-bottom: none;"></input></td>
                 <td id="edit-button-{{todo.id}}"><a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('{{todo.id}}')">edit</a></td>
+                
+                <td id="task-{{todo.id}}-category">
+                  <span class="task-badge" {% if todo.category == "personal" %} style="background-color: #198754;" {% elif todo.category == "work" %} style="background-color: #0D6EFD;" {% elif todo.category == "school" %} style="background-color: #a3118bff;" {% elif todo.category == "reminder" %} style="background-color: #ff6600ef;" {% elif todo.category == "shopping" %} style="background-color:#E91E63;" {% elif todo.category == "urgent" %} style="background-color: #DC3545;" {% else %} style="background-color: #9E9E9E;" {% endif %}>{{todo.category}}</span>
+                  <div id="category-dropdown-{{todo.id}}" style="display: none;"><select id="task-{{todo.id}}-category-dropdown" disabled value="{{todo.category}}"> 
+                    <option id="personal" value="personal" {% if todo.category == "personal" %} selected {% endif %}>Personal</option>
+                    <option id="work" value="work" {% if todo.category == "work" %} selected {% endif %}>Work</option>
+                    <option id="school" value="school" {% if todo.category == "school" %} selected {% endif %}>School</option>
+                    <option id="shopping" value="shopping" {% if todo.category == "shopping" %} selected {% endif %}>Shopping</option>
+                    <option id="urgent" value="urgent" {% if todo.category == "urgent" %} selected {% endif %}>Urgent</option>
+                    <option id="reminder" value="reminder" {% if todo.category == "reminder" %} selected {% endif %}>Reminder</option>
+                    <option id="other" value="other" {% if todo.category == "other" %} selected {% endif %}>Other</option>
+                  </select> </div>
+                </td>
+
+                <td id="enable-categories-{{todo.id}}"><a style="color: magenta;" class="material-symbols-outlined" onclick="enableCategoryDropdown('{{todo.id}}')">edit</a></td>
                 <td>{{todo.get_username()}}</td>
 
                 <td>{{calculate_time_elapsed(todo.date_due, todo.date_created)}}</td>

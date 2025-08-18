@@ -11,6 +11,7 @@ from App.controllers import (
     get_todo,
     update_todo,
     toggle_todo,
+    changeCategory,
     get_all_todos,
     get_todos_by_due_date,
     get_todos_by_month_json,
@@ -64,12 +65,14 @@ def get_todos_by_date(year_month_day):
 @jwt_required()
 def create_todo_action(year_month_day):
     data = request.form
-    due_date_time = f"{data['due-date']} {data['due-time']}"
+    due_date = data['due-date']
+    due_time = data['due-time']
+    due_date_time = f"{due_date} {due_time}"
     dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
     todo = create_todo(data['text'], current_user.id, dt, data['category'])
 
     if todo:
-        flash(f"Todo {todo.id} created by User {current_user.id} due on {due_date_time}!")
+        flash(f"Todo {todo.id} created by User {current_user.id} due on {due_date} at {due_time}!")
     else:
         flash(f"Failed to create todo !")
 
@@ -93,9 +96,9 @@ def get_todo_page_by_id(id):
 @todo_views.route('/todos/<int:id>', methods=['PUT'])
 def update_todo_action(id):
     data = request.json
-    todo = update_todo(id, data['text'])
+    todo = update_todo(id, data['text'], data['category'])
     flash(f"Todo {todo.id} updated!")
-    return jsonify({'success':True, 'text':data['text']})
+    return jsonify({'success':True, 'text':data['text'], 'category':data['category']})
 
 @todo_views.route('/todos/<int:id>/check', methods=['PUT'])
 def toggle_todo_action(id):
@@ -109,6 +112,15 @@ def toggle_todo_action(id):
         flash(f"Todo {todo.id} marked as incomplete!")      
         
     return jsonify({'success':True, 'done':todo.done, 'date_completed':date_completed})
+
+
+@todo_views.route('/todos/<int:id>/change-category', methods=['PUT'])
+def change_category_action(id):
+    data = request.json
+    todo = changeCategory(id, data['category'])
+    
+    flash(f"Todo {todo.id} category changed to {data['category']}!")      
+    return jsonify({'success':True, 'category':data['category']})
 
 
 @todo_views.route('/api/todos', methods=['GET'])
