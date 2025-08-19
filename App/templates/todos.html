@@ -102,17 +102,14 @@
                  
                   {% if todo.date_completed %}
                     <td id="task-completed-{{todo.id}}">{{todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")}}</td>
-                  {% endif %}
-                  
-                  {% if todo.date_completed %}
-                    <td>{{calculate_time_elapsed(todo.date_completed, todo.date_created)}}</td>
+                    <td id="task-time-taken-{{todo.id}}">{{calculate_time_elapsed(todo.date_completed, todo.date_created)}}</td>
                   {% endif %}
 
                 {% else %}
                   <td id="done-{{todo.id}}"><span>No</span></td>
                   <td id="task-checkbox-{{todo.id}}"><i style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
                   <td id="task-completed-{{todo.id}}">_</td>
-                  <td>_</td>
+                  <td id="task-time-taken-{{todo.id}}">_</td>
                 {% endif %}
                 
                 </tr>

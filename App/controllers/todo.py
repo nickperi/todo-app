@@ -66,32 +66,32 @@ def get_all_todos():
     todos = Todo.query.order_by(Todo.id).all()
     return todos
 
-def get_todos_by_month(month, year):
+def get_todos_by_month(user_id, month, year):
     start_date = datetime(year, month, 1)
     end_date = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
-                                 Todo.date_due <= end_date).all()
+                                 Todo.date_due <= end_date, Todo.user_id==user_id)
     return todos
     
-def get_todos_by_month_json(month, year):
+def get_todos_by_month_json(user_id, month, year):
     start_date = datetime(year, month, 1)
     end_date = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
-                                 Todo.date_due <= end_date).all()
+                                 Todo.date_due <= end_date, Todo.user_id==user_id)
     todos = [todo.get_json() for todo in todos]
     return todos
     
 
-def get_todos_by_due_date(year, month, day):
+def get_todos_by_due_date(user_id, year, month, day):
     #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
     date_object = date(year, month, day)
-    todos = Todo.query.filter(func.date(Todo.date_due) == date_object).all()
+    todos = Todo.query.filter(func.date(Todo.date_due) == date_object, Todo.user_id==user_id).all()
     return todos
 
-def get_todos_by_due_date_json(year, month, day):
+def get_todos_by_due_date_json(user_id, year, month, day):
     #date_object = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
     date_object = date(year, month, day)
-    todos = Todo.query.filter(func.date(Todo.date_due) == date_object).all()
+    todos = Todo.query.filter(func.date(Todo.date_due) == date_object, Todo.user_id==user_id).all()
     todos = [todo.get_json() for todo in todos]
     return todos
     

@@ -38,6 +38,7 @@ function toggleDone(todoId) {
     const taskCheckbox = document.getElementById(`task-checkbox-${todoId}`);
     const taskDoneField = document.getElementById(`done-${todoId}`);
     const taskCompletedField = document.getElementById(`task-completed-${todoId}`);
+    const taskTimeTakenField = document.getElementById(`task-time-taken-${todoId}`);
 
     fetch(`/todos/${todoId}/check`, {
         method: 'PUT',
@@ -57,11 +58,13 @@ function toggleDone(todoId) {
                     taskDoneField.innerHTML = `<span>Yes</span>`;
                     taskCheckbox.innerHTML = `<a style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box</a>`;
                     taskCompletedField.innerHTML = `${data.date_completed}`;
+                    taskTimeTakenField.innerHTML = `${data.time_taken}`;
                 }
                 else {
                     taskDoneField.innerHTML = `<span>No</span>`;
                     taskCheckbox.innerHTML = `<a style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('${todoId}')">check_box_outline_blank</a>`;
                     taskCompletedField.innerHTML = "_";
+                    taskTimeTakenField.innerHTML = "_";
                 }
 
             } else {
