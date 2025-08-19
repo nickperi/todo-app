@@ -136,9 +136,10 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
 
 
 @media (max-width: 768px) {
-    .calendar-container {
+    .calendar-container, .calendar-dates {
         max-width: 100%;
         padding: 0 10px;
+        margin: auto;
     }
 
     .calendar-weekdays span,
