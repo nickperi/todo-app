@@ -12,7 +12,8 @@ body {
 }
 
 nav.nav-extended .nav-wrapper {
-   margin: auto;
+  display: flex;
+  margin: auto;
 }
 
 .active-tab {
@@ -89,7 +90,6 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
     grid-template-columns: repeat(7, 1fr); /* Seven equal columns for days */
     gap: 1px; /* Optional gap between cells */
     max-width: 800px;
-    justify-content: center;
     align-content: center;
 }
 
@@ -146,6 +146,7 @@ input[type=text]:not(.browser-default):not(.task-input), input[type=password]:no
         padding: 0 10px;
         justify-content: center;
         align-content: center;
+        margin: 5px;
     }
 
     .calendar-weekdays span,
