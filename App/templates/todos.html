@@ -7,11 +7,19 @@
 {% block content %}
 
     <div class="row">
+      
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="command-input" name="command" style="width: 100%" class="validate">
+          <button class="btn waves-effect waves-light right purple" onclick="parseCommand()">Parse</button>
+        </div>
+      </div>
+      
+
       <form class="col s12" method="POST" action="/todos/{{year}}_{{month}}_{{day}}">
-        
-        <div class="row">
+
           <div class="input-field col s6">
-            <input placeholder="Text" name="text" type="text" class="validate">
+            <input id="title" placeholder="Text" name="text" type="text" class="validate">
             <label for="text">Text</label>
           </div>
           <div class="input-field col s6">
@@ -22,28 +30,28 @@
            <div class="input-field col s6">
 
               {% if month < 10 %}
-                <input value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
               {% elif day < 10 %}
-                <input value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
               {% elif day < 10 and month < 10 %}
-                <input value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
               {% else %}
-                <input value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
               {% endif %}
 
-              <input name="due-time" type="time" class="validate">
+              <input id="due-time"  name="due-time" type="time" class="validate">
               <label for="due-date">Due Date & Time</label>
           </div>
 
           <div class="input-field col s6">
-            <select name="category" class="validate">
-              <option value="personal">Personal</option>
-              <option value="work">Work</option>
-              <option value="school">School</option>
-              <option value="shopping">Shopping</option>
-              <option value="urgent">Urgent</option>
-              <option value="reminder">Reminder</option>
-              <option value="other">Other</option>
+            <select id="category" name="category" class="validate">
+              <option id="personal" value="personal">Personal</option>
+              <option id="work" value="work">Work</option>
+              <option id="school" value="school">School</option>
+              <option id="shopping" value="shopping">Shopping</option>
+              <option id="urgent" value="urgent">Urgent</option>
+              <option id="reminder" value="reminder">Reminder</option>
+              <option id="other" value="other">Other</option>
             </select>
             <label for="category">Category</label>
           </div>

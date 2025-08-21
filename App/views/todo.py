@@ -1,6 +1,10 @@
+import os
+from dotenv import load_dotenv
 from flask import Blueprint, json, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user
 from datetime import datetime
+
+import requests
 
 from.index import index_views
 
@@ -24,6 +28,7 @@ from App.controllers import (
 
 
 todo_views = Blueprint('todo_views', __name__, template_folder='../templates')
+load_dotenv()
 
 '''@todo_views.route('/dashboard')
 @jwt_required()
@@ -73,10 +78,14 @@ def create_todo_action(year_month_day):
 
     if todo:
         flash(f"Todo {todo.id} created by User {current_user.id} due on {due_date} at {due_time}!")
+        data_field_values = due_date.split('-')
+        y = data_field_values[0]
+        m = data_field_values[1]
+        d = data_field_values[2]
     else:
         flash(f"Failed to create todo !")
 
-    return redirect(url_for('todo_views.get_todos_by_date', year_month_day=year_month_day))
+    return redirect(url_for('todo_views.get_todos_by_date', year_month_day=str(y)+"_"+str(m)+"_"+str(d)))
 
 
 @todo_views.route('/todos-calendar', methods=['GET'])
@@ -96,9 +105,9 @@ def get_todo_page_by_id(id):
 @todo_views.route('/todos/<int:id>', methods=['PUT'])
 def update_todo_action(id):
     data = request.json
-    todo = update_todo(id, data['text'])
+    todo = update_todo(id, data['text'], data['category'])
     flash(f"Todo {todo.id} updated!")
-    return jsonify({'success':True, 'text':data['text']})
+    return jsonify({'success':True, 'text':data['text'], 'category':data['category']})
 
 @todo_views.route('/todos/<int:id>/check', methods=['PUT'])
 def toggle_todo_action(id):
@@ -107,11 +116,11 @@ def toggle_todo_action(id):
     if todo.done:
         date_completed = todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")
         flash(f"Todo {todo.id} marked as done!")
-        return jsonify({'success':True, 'done':todo.done, 'date_completed':date_completed, 'time_taken':calculate_time_elapsed(todo.date_completed, todo.date_created)})
     else:
         date_completed = None
         flash(f"Todo {todo.id} marked as incomplete!")      
-        return jsonify({'success':True, 'done':todo.done})
+        
+    return jsonify({'success':True, 'done':todo.done, 'date_completed':date_completed})
 
 
 @todo_views.route('/todos/<int:id>/change-category', methods=['PUT'])
@@ -138,4 +147,55 @@ def create_todo_endpoint():
         return jsonify({'message': f"failed to create todo"})
     
     return jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
+
+
+
+HF_TOKEN = os.getenv('HF_TOKEN')
+API_URL = os.getenv('API_URL')
+headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+
+def query(payload):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
+
+
+def safe_parse_ai_output(output):
+    try:
+        # Extract JSON part
+        start = output.find("{")
+        end = output.rfind("}") + 1
+        json_str = output[start:end]
+        data = json.loads(json_str)
+    except Exception as e:
+        print("AI JSON parse failed:", e)
+        data = {
+            "title": "",
+            "due_date": None,
+            "due_time": None,
+            "category": ""
+        }
+    return data
+
+@todo_views.route('/parse-todo', methods=['POST'])
+def parse_todo():
+    data = request.get_json()
+    if not data or "command" not in data:
+        return jsonify({"error": "Missing 'command' field"}), 400
+
+    user_input = data["command"]
+    
+    response = query({
+    "messages": [
+        {
+            "role": "user",
+            "content": "Given that today's date is " + str(datetime.now().strftime("%a, %b %d, %Y")) + "Can you generate json only with the appropriate task_title, date_due (YYYY-MM-DD), time_due (HH:mm), category (personal, reminder, school, work, urgent, other) for the task " + user_input + "?"
+        }
+    ],
+    "model": "openai/gpt-oss-20b:fireworks-ai"
+})
+    
+    todo = safe_parse_ai_output(response["choices"][0]["message"]["content"])
+    print(response["choices"][0]["message"])
+    return jsonify(todo)
+
 

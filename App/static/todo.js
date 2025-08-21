@@ -131,4 +131,30 @@ function changeCategory(todoId) {
                 });
 }
 
+function parseCommand() {
+    const command = document.getElementById('command-input').value;
+    console.log(command);
+
+    fetch('/parse-todo', {
+        method: 'POST',
+
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({command}),
+        }).then(response => response.json())
+        .then(data => {
+            console.log("Received data:", data);  // check what’s coming from the backend
+
+            document.getElementById('title').value = data['task_title'];
+            document.getElementById('due-date').value = data['date_due'];
+            document.getElementById('due-time').value = data['time_due'];
+            document.getElementById('category').value = data['category'];
+            document.getElementById('category').querySelector(`#${data['category']}`).selected = true;
+        });
+}
+
+
+
+
 
