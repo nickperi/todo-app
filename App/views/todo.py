@@ -116,7 +116,7 @@ def toggle_todo_action(id):
     if todo.done:
         date_completed = todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")
         flash(f"Todo {todo.id} marked as done!")
-        return jsonify({'success':True, 'done':todo.done, 'date_completed':todo.date_completed})
+        return jsonify({'success':True, 'done':todo.done, 'date_completed':date_completed, 'time_taken':calculate_time_elapsed(todo.date_due, todo.date_completed)})
     else:
         date_completed = None
         flash(f"Todo {todo.id} marked as incomplete!")      
