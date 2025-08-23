@@ -27,6 +27,7 @@
                   <li><a href="/students">Students</a></li>
                   {% if is_authenticated %}
                     <li><a href="/identify">Identify</a></li>
+                    <li><a href="/todos">Add Task</a></li>
                     <li><a href="/todos-calendar">Calendar</a></li>
                   {% endif %}
               </ul>
@@ -38,6 +39,7 @@
                   <li class="options"><a class="{{ 'active-tab' if active_tab == 'students' else '' }}" href="/students" target="_self">Students</a></li>
                   {% if is_authenticated %}
                     <li class="options"><a class="{{ 'active-tab' if active_tab == 'identify' else '' }}" href="/identify" target="_self">Identify</a></li>
+                    <li class="options"><a class="{{ 'active-tab' if active_tab == 'todos' else ''}}" href="{{url_for('todo_views.get_todos_by_date', year_month_day=year_month_day)}}">Add Task</a></li>
                     <li class="options"><a class="{{ 'active-tab' if active_tab == 'todos-calendar' else '' }}" href="/todos-calendar" target="_self">Calendar</a></li>
                   {% endif %}
                 </ul>

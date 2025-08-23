@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies
 
@@ -20,12 +21,14 @@ Page/Action Routes
 @auth_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
-    return render_template('users.html', users=users, active_tab='users')
+    year_month_day = f"{datetime.now().year}_{datetime.now().month}_{datetime.now().day}"
+    return render_template('users.html', users=users, year_month_day=year_month_day, active_tab='users')
 
 @auth_views.route('/identify', methods=['GET'])
 @jwt_required()
 def identify_page():
-    return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}", active_tab='identify')
+    year_month_day = f"{datetime.now().year}_{datetime.now().month}_{datetime.now().day}"
+    return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}", year_month_day=year_month_day, active_tab='identify')
 
 
 @auth_views.route('/login', methods=['POST'])

@@ -1,12 +1,18 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.controllers import create_user, initialize
 from flask_jwt_extended import current_user
+from datetime import datetime
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])
 def index_page():
-   return render_template('index.html', current_user=current_user, active_tab='home')
+   today = datetime.now()
+   year = today.year
+   month = today.month
+   day = today.day
+   year_month_day = f"{year}_{month}_{day}"
+   return render_template('index.html', current_user=current_user, year_month_day=year_month_day, active_tab='home')
 
 @index_views.route('/init', methods=['GET'])
 def init():

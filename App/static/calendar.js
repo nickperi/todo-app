@@ -101,7 +101,7 @@ function sortTodosByDate(todos) {
     for(let todo of todos) {
         const dueDate = todo.date_due;
         //console.log(dueDate);
-        console.log(todo.category);
+        console.log(todo.date_due + " " + todo.category);
         (map[dueDate] ||= []).push(todo);
     }
     return map;

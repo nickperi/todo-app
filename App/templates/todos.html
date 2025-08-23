@@ -29,18 +29,23 @@
 
            <div class="input-field col s6">
 
-              {% if month < 10 %}
-                <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
+              <!--{% if month < 10 %}
+                <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate">
               {% elif day < 10 %}
-                <input id="due-date" value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate">
               {% elif day < 10 and month < 10 %}
-                <input id="due-date" value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate" readonly>
+                <input id="due-date" value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate">
               {% else %}
-                <input id="due-date" value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate" readonly>
-              {% endif %}
+                <input id="due-date" value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate">
+              {% endif %} -->
+              
+              <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="date" class="validate">
+              <label for="due-date">Choose Due Date (Default is Today)</label>
+          </div>
 
-              <input id="due-time"  name="due-time" type="time" class="validate">
-              <label for="due-date">Due Date & Time</label>
+          <div class="input-field col s6">
+            <input id="due-time"  name="due-time" type="time" class="validate">
+            <label for="due-time">Choose Due Time</label>
           </div>
 
           <div class="input-field col s6">

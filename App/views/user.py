@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 
@@ -15,7 +16,8 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
-    return render_template('users.html', users=users, active_tab='users')
+    year_month_day = f"{datetime.now().year}_{datetime.now().month}_{datetime.now().day}"
+    return render_template('users.html', users=users, year_month_day=year_month_day, active_tab='users')
 
 @user_views.route('/users', methods=['POST'])
 def create_user_action():

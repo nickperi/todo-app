@@ -26,6 +26,27 @@ class Todo(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+
+    def calculate_time_elapsed(self, date_due, date_created):
+        diff = date_due - date_created
+        seconds = diff.total_seconds()
+
+        if(seconds < 60):
+            return f"{int(seconds)}s"
+        elif(seconds < 3600):
+            return f"{int(seconds//60)}m"
+        elif(seconds < 86400):
+            return f"{int(seconds//3600)}h"
+        elif(seconds < 604800):
+            return f"{int(seconds//86400)}d"
+        elif(seconds < 2419200):
+            return f"{int(seconds//604800)}w"
+        else:
+            return f"{diff}"
+        
+
+
     def get_user_type(self):
         user = User.query.filter_by(id=self.user_id).first()
         return user.get_user_type()
@@ -39,7 +60,11 @@ class Todo(db.Model):
         
 
     def get_json(self):
-        return {
+
+        if self.done:
+
+            if self.date_due:
+                return {
       "id": self.id,
       "user_id": self.user_id,
       "text": self.text,
@@ -47,7 +72,47 @@ class Todo(db.Model):
       "category": self.category,
       "date_created": self.date_created,
       "date_due": self.date_due.strftime("%Y-%m-%d"),
-      "date_completed": self.date_completed
+      "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
+      "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
+    }
+            else:
+                return {
+      "id": self.id,
+      "user_id": self.user_id,
+      "text": self.text,
+      "done": self.done,
+      "category": self.category,
+      "date_created": self.date_created,
+      "date_due": None,
+      "date_completed": None,
+      "time_taken": None
+      }
+        
+        else:
+            if self.date_due:
+                return {
+      "id": self.id,
+      "user_id": self.user_id,
+      "text": self.text,
+      "done": self.done,
+      "category": self.category,
+      "date_created": self.date_created,
+      "date_due": self.date_due.strftime("%Y-%m-%d"),
+      "date_completed": None,
+      "time_taken": None
+    }
+            
+            else:
+                return {
+      "id": self.id,
+      "user_id": self.user_id,
+      "text": self.text,
+      "done": self.done,
+      "category": self.category,
+      "date_created": self.date_created,
+      "date_due": None,
+      "date_completed": None,
+      "time_taken": None
     }
 
 

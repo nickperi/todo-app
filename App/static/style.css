@@ -11,9 +11,9 @@ body {
   background-color: blueviolet;
 }
 
-nav.nav-extended .nav-wrapper {
-  display: flex;
-  margin: auto;
+nav {
+  display: block;
+  height: auto;
 }
 
 .active-tab {
