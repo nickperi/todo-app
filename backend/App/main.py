@@ -22,9 +22,9 @@ def add_views(app):
         app.register_blueprint(view)
 
 def create_app(overrides={}):
-    app = Flask(__name__, static_url_path='/', static_folder='static')
+    app = Flask(__name__, static_url_path='/static')
     load_config(app, overrides)
-    CORS(app, origins=["https://stunning-tribble-4xxr55547g72qpx9-5173.app.github.dev", "https://stunning-tribble-4xxr55547g72qpx9-5000.app.github.dev"], supports_credentials=True)
+    CORS(app)
     add_auth_context(app)
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
