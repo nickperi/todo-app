@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block title %}Todos due on {{date.strftime("%a, %b %d, %Y")}}{% endblock %}
+{% block page %}Todos due on {{date.strftime("%a, %b %d, %Y")}}{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+
+    <div class="row">
+      
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="command-input" name="command" style="width: 100%" class="validate">
+          <button class="btn waves-effect waves-light right purple" onclick="parseCommand()">Parse</button>
+        </div>
+      </div>
+      
+
+      <form class="col s12" method="POST" action="/todos/{{year}}_{{month}}_{{day}}">
+
+          <div class="input-field col s6">
+            <input id="title" placeholder="Text" name="text" type="text" class="validate">
+            <label for="text">Text</label>
+          </div>
+          <div class="input-field col s6">
+            <input placeholder="{{current_user.id}}" value="{{current_user.id}}" name="user_id" type="number" class="validate" readonly>
+            <label for="User Id">User Id</label>
+          </div>
+
+           <div class="input-field col s6">
+
+              <!--{% if month < 10 %}
+                <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="text" class="validate">
+              {% elif day < 10 %}
+                <input id="due-date" value="{{year}}-{{month}}-0{{day}}" name="due-date" type="text" class="validate">
+              {% elif day < 10 and month < 10 %}
+                <input id="due-date" value="{{year}}-0{{month}}-0{{day}}" name="due-date" type="text" class="validate">
+              {% else %}
+                <input id="due-date" value="{{year}}-{{month}}-{{day}}" name="due-date" type="text" class="validate">
+              {% endif %} -->
+              
+              <input id="due-date" value="{{year}}-0{{month}}-{{day}}" name="due-date" type="date" class="validate">
+              <label for="due-date">Choose Due Date (Default is Today)</label>
+          </div>
+
+          <div class="input-field col s6">
+            <input id="due-time"  name="due-time" type="time" class="validate">
+            <label for="due-time">Choose Due Time</label>
+          </div>
+
+          <div class="input-field col s6">
+            <select id="category" name="category" class="validate">
+              <option id="personal" value="personal">Personal</option>
+              <option id="work" value="work">Work</option>
+              <option id="school" value="school">School</option>
+              <option id="shopping" value="shopping">Shopping</option>
+              <option id="urgent" value="urgent">Urgent</option>
+              <option id="reminder" value="reminder">Reminder</option>
+              <option id="other" value="other">Other</option>
+            </select>
+            <label for="category">Category</label>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="input-field col s12">
+            <button class="btn waves-effect waves-light right purple" type="submit" name="action">Submit</button>
+          </div>
+        </div> 
+
+      </form>
+    </div>
+
+    <div class="row">
+      {% if not todos %}
+        <p>No tasks added yet</p>
+
+      {% else %}
+      <div class="table-container">
+        <table class="large-table">
+          <thead>
+            <tr>
+              <th>Task</th><th>Edit Text</th><th>Category</th><th>Edit Category</th><th>Username</th><th>Duration</th><th>Deadline</th><th>Done</th><th>Mark as Done</th><th>Date Completed</th><th>Time Taken</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for todo in todos %}
+              <tr>
+                <td id="task-{{todo.id}}-text"><input class="task-input" id="task-{{todo.id}}-input" type="text" readonly value="{{todo.text}}" style="border-bottom: none;"></input></td>
+                <td id="edit-button-{{todo.id}}"><a style="color: orangered;" class="material-symbols-outlined" onclick="makeTaskEditable('{{todo.id}}')">edit</a></td>
+                
+                <td id="task-{{todo.id}}-category">
+                  <span class="task-badge" {% if todo.category == "personal" %} style="background-color: #198754;" {% elif todo.category == "work" %} style="background-color: #0D6EFD;" {% elif todo.category == "school" %} style="background-color: #a3118bff;" {% elif todo.category == "reminder" %} style="background-color: #ff6600ef;" {% elif todo.category == "shopping" %} style="background-color:#E91E63;" {% elif todo.category == "urgent" %} style="background-color: #DC3545;" {% else %} style="background-color: #9E9E9E;" {% endif %}>{{todo.category}}</span>
+                  <div id="category-dropdown-{{todo.id}}" style="display: none;"><select id="task-{{todo.id}}-category-dropdown" disabled value="{{todo.category}}"> 
+                    <option id="personal" value="personal" {% if todo.category == "personal" %} selected {% endif %}>Personal</option>
+                    <option id="work" value="work" {% if todo.category == "work" %} selected {% endif %}>Work</option>
+                    <option id="school" value="school" {% if todo.category == "school" %} selected {% endif %}>School</option>
+                    <option id="shopping" value="shopping" {% if todo.category == "shopping" %} selected {% endif %}>Shopping</option>
+                    <option id="urgent" value="urgent" {% if todo.category == "urgent" %} selected {% endif %}>Urgent</option>
+                    <option id="reminder" value="reminder" {% if todo.category == "reminder" %} selected {% endif %}>Reminder</option>
+                    <option id="other" value="other" {% if todo.category == "other" %} selected {% endif %}>Other</option>
+                  </select> </div>
+                </td>
+
+                <td id="enable-categories-{{todo.id}}"><a style="color: magenta;" class="material-symbols-outlined" onclick="enableCategoryDropdown('{{todo.id}}')">edit</a></td>
+                <td>{{todo.get_username()}}</td>
+
+                <td>{{calculate_time_elapsed(todo.date_due, todo.date_created)}}</td>
+                <td>{{todo.date_due.strftime("%I:%M %p")}}</td>
+
+                {% if todo.done %}
+                  <td id="done-{{todo.id}}"><span>Yes</span></td>
+                  <td id="task-checkbox-{{todo.id}}"><i style="color:limegreen;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box</i></td>
+                 
+                  {% if todo.date_completed %}
+                    <td id="task-completed-{{todo.id}}">{{todo.date_completed.strftime("%a, %b %d, %Y %I:%M %p")}}</td>
+                    <td id="task-time-taken-{{todo.id}}">{{calculate_time_elapsed(todo.date_completed, todo.date_created)}}</td>
+                  {% endif %}
+
+                {% else %}
+                  <td id="done-{{todo.id}}"><span>No</span></td>
+                  <td id="task-checkbox-{{todo.id}}"><i style="color:cadetblue;" class="material-symbols-outlined" onclick="toggleDone('{{todo.id}}')">check_box_outline_blank</i></td>
+                  <td id="task-completed-{{todo.id}}">_</td>
+                  <td id="task-time-taken-{{todo.id}}">_</td>
+                {% endif %}
+                
+                </tr>
+              {% endfor %}
+            <tbody>
+          </table>
+      </div>
+
+      {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='todo.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}My Calendar{% endblock %}
+{% block page %}My Calendar{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+
+
+    <div class="calendar-header">
+        <div id="month-header" style="text-align: center;">
+            <span id ="current-month">{{months[month]}}</span> 
+            <span id="current-year">{{year}}</span>
+        </div> 
+    </div>
+
+    <select class="months-dropdown">
+        {% for monthKey, monthValue in months.items() %}
+            {% if monthKey == month %}
+                <option value="{{monthKey}}" selected>{{monthValue}}</option>
+            {% else %}
+                <option value="{{monthKey}}">{{monthValue}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <div class="calendar-container">
+        <div class="calendar-weekdays" >
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+        </div>
+        
+        <div class="calendar-dates"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='calendar.js') }}"></script>
+{% endblock %}
