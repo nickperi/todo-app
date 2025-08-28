@@ -29,16 +29,15 @@ from App.controllers import (
 todo_views = Blueprint('todo_views', __name__, template_folder='../templates')
 load_dotenv()
 
-'''@todo_views.route('/dashboard')
-@jwt_required()
-def display_dashboard():
-    users = get_all_users()
-    students = get_all_students()
-    message=f"You are logged in as {current_user.id} - {current_user.username}"
-    todos = get_todos_by_month(month=datetime.now().month, year=datetime.now().year)
-    months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
-    return render_template('dashboard.html', active_tab='todos-calendar', users=users, students=students, message=message, todos=todos, current_user=current_user, months=months, month=datetime.now().month, year=datetime.now().year, day=datetime.now().day)
-'''
+@todo_views.route('/api/todos', methods=['GET'], strict_slashes=False)
+def get_todos_action():
+    todos = get_all_todos_json()
+    return jsonify(todos)
+
+'''@todo_views.route('/')
+def todo_app_index():
+    return send_from_directory('dist', 'index.html') '''
+
 
 
 @todo_views.route('/todos', methods=['GET'])
@@ -144,11 +143,6 @@ def change_category_action(id):
     flash(f"Todo {todo.id} category changed to {data['category']}!")      
     return jsonify({'success':True, 'category':data['category']})
 
-
-@todo_views.route('/api/todos', methods=['GET'])
-def get_todos_action():
-    todos = get_all_todos_json()
-    return jsonify(todos)
 
 @todo_views.route('/api/todos', methods=['POST'])
 def create_todo_endpoint():
