@@ -20,6 +20,8 @@ from App.controllers import (
     get_todos_by_month_json,
     get_todos_by_month,
     get_all_todos_json,
+    sort_todos_by_date_created,
+    sort_todos_by_date_due,
     calculate_time_elapsed,
     jwt_required
 )
@@ -30,9 +32,41 @@ todo_views = Blueprint('todo_views', __name__, template_folder='../templates')
 load_dotenv()
 
 @todo_views.route('/api/todos', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def get_todos_action():
-    todos = get_all_todos_json()
+    todos = get_all_todos_json(current_user.id)
     return jsonify(todos)
+
+@todo_views.route('/api/todos/sort-by-date-created', methods=['GET'], strict_slashes=False)
+@jwt_required()
+def sort_todos_by_date_created_action():
+    todos = sort_todos_by_date_created(current_user.id)
+    if not todos:
+        return jsonify([])
+    return jsonify(todos)
+
+@todo_views.route('/api/todos/sort-by-date-due', methods=['GET'], strict_slashes=False)
+@jwt_required()
+def sort_todos_by_date_due_action():
+    todos = sort_todos_by_date_due(current_user.id)
+    if not todos:
+        return jsonify([])
+    return jsonify(todos)
+
+@todo_views.route('/api/todos', methods=['POST'])
+@jwt_required()
+def create_todo_endpoint():
+    data = request.json
+
+    due_date_time = f"{data['date_due']} {data['time_due']}"
+    dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
+    todo = create_todo(data['text'], current_user.id, due_date_time, data['category'])
+    #todo = {'text': data['text'], 'user_id': current_user.id, 'due_date': dt, 'category': data['category']}
+    #print(todo)
+
+    if not todo:
+        return jsonify({'message': f"failed to create todo"})
+    jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
 
 '''@todo_views.route('/')
 def todo_app_index():
@@ -120,6 +154,7 @@ def update_todo_action(id):
     todo = update_todo(id, data['text'])
     flash(f"Todo {todo.id} updated!")
     return jsonify({'success':True, 'text':data['text']})
+    
 
 @todo_views.route('/todos/<int:id>/check', methods=['PUT'])
 def toggle_todo_action(id):
@@ -142,18 +177,6 @@ def change_category_action(id):
     
     flash(f"Todo {todo.id} category changed to {data['category']}!")      
     return jsonify({'success':True, 'category':data['category']})
-
-
-@todo_views.route('/api/todos', methods=['POST'])
-def create_todo_endpoint():
-    data = request.json
-
-    todo = create_todo(data['text'], data['user_id'])
-
-    if not todo:
-        return jsonify({'message': f"failed to create todo"})
-    
-    return jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
 
 
 

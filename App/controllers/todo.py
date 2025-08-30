@@ -94,10 +94,20 @@ def get_todos_by_due_date_json(user_id, year, month, day):
     todos = Todo.query.filter(func.date(Todo.date_due) == date_object, Todo.user_id==user_id).all()
     todos = [todo.get_json() for todo in todos]
     return todos
+
+def sort_todos_by_date_created(user_id):
+    todos = Todo.query.filter_by(user_id=user_id).order_by(Todo.date_created).all()
+    todos = [todo.get_json() for todo in todos]
+    return todos
+
+def sort_todos_by_date_due(user_id):
+    todos = Todo.query.filter_by(user_id=user_id).order_by(Todo.date_due).all()
+    todos = [todo.get_json() for todo in todos]
+    return todos
     
 
-def get_all_todos_json():
-    todos = Todo.query.all()
+def get_all_todos_json(user_id):
+    todos = Todo.query.filter_by(user_id=user_id).order_by(Todo.id).all()
 
     if not todos:
         return []
