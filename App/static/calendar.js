@@ -117,6 +117,7 @@ function loadTodos(todos, key) {
         reminder:'#ff6600ef', 
         school: "#a3118bff",
         shopping: "#E91E63", 
+        'job application': "#4837B5",
         other: "#9E9E9E"
     };
 

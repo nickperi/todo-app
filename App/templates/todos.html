@@ -56,6 +56,7 @@
               <option id="shopping" value="shopping">Shopping</option>
               <option id="urgent" value="urgent">Urgent</option>
               <option id="reminder" value="reminder">Reminder</option>
+              <option id="job-application" value="job application">Job Application</option>
               <option id="other" value="other">Other</option>
             </select>
             <label for="category">Category</label>
@@ -99,6 +100,7 @@
                     <option id="shopping" value="shopping" {% if todo.category == "shopping" %} selected {% endif %}>Shopping</option>
                     <option id="urgent" value="urgent" {% if todo.category == "urgent" %} selected {% endif %}>Urgent</option>
                     <option id="reminder" value="reminder" {% if todo.category == "reminder" %} selected {% endif %}>Reminder</option>
+                    <option id="job-application" value="job application">Job Application</option>
                     <option id="other" value="other" {% if todo.category == "other" %} selected {% endif %}>Other</option>
                   </select> </div>
                 </td>
