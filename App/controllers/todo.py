@@ -74,7 +74,7 @@ def get_todos_by_month(user_id, month, year):
     return todos
     
 def get_todos_by_month_json(user_id, month, year):
-    start_date = datetime(year, month, 1)
+    start_date = datetime(year, month-1, 1)
     end_date = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
     todos = Todo.query.filter(Todo.date_due >= start_date,
                                  Todo.date_due <= end_date, Todo.user_id==user_id)
