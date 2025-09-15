@@ -61,7 +61,7 @@ def create_todo_endpoint():
     due_date_time = f"{data['date_due']} {data['time_due']}"
     dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
     todo = create_todo(data['text'], current_user.id, due_date_time, data['category'])
-    todo = {'text': data['text'], 'user_id': current_user.id, 'due_date': dt, 'category': data['category']}
+    todo = {'id':todo.id, 'text': data['text'], 'user_id': current_user.id, 'due_date': dt, 'category': data['category']}
     print(todo)
 
     if not todo:
