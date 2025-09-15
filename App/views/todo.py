@@ -61,12 +61,12 @@ def create_todo_endpoint():
     due_date_time = f"{data['date_due']} {data['time_due']}"
     dt = datetime.strptime(due_date_time, "%Y-%m-%d %H:%M")
     todo = create_todo(data['text'], current_user.id, due_date_time, data['category'])
-    #todo = {'text': data['text'], 'user_id': current_user.id, 'due_date': dt, 'category': data['category']}
-    #print(todo)
+    todo = {'text': data['text'], 'user_id': current_user.id, 'due_date': dt, 'category': data['category']}
+    print(todo)
 
     if not todo:
         return jsonify({'message': f"failed to create todo"})
-    return jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
+    return jsonify(todo)
 
 '''@todo_views.route('/')
 def todo_app_index():
