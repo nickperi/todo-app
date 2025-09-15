@@ -1,11 +1,30 @@
 from App.models import User
 from App.database import db
+from sqlalchemy.exc import PendingRollbackError
 
 def create_user(username, password):
     newuser = User(username=username, password=password)
-    db.session.add(newuser)
-    db.session.commit()
-    return newuser
+
+    try:
+        db.session.add(newuser)
+        db.session.commit()
+        return newuser
+    except PendingRollbackError:
+        # Handle the PendingRollbackError
+        print("PendingRollbackError encountered. Rolling back session.")
+        db.session.rollback()
+    except Exception as e:
+        # Handle other potential exceptions during the operation
+        print(f"An unexpected error occurred: {e}")
+        db.session.rollback() # Ensure rollback for other errors too
+    finally:
+        # It's generally good practice to close the session when done
+        db.session.close()
+        if newuser:
+            return newuser
+        else:
+            return None
+        # Or handle session closing elsewhere in your application lifecycle
 
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
