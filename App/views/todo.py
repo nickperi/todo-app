@@ -66,7 +66,7 @@ def create_todo_endpoint():
 
     if not todo:
         return jsonify({'message': f"failed to create todo"})
-    jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
+    return jsonify({'message': f"todo {todo.text} created with id {todo.id}"})
 
 '''@todo_views.route('/')
 def todo_app_index():
