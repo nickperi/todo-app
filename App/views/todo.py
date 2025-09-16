@@ -35,6 +35,8 @@ load_dotenv()
 @jwt_required()
 def get_todos_action():
     todos = get_all_todos_json(current_user.id)
+    if not todos:
+        return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
 
 @todo_views.route('/api/todos/sort-by-date-created', methods=['GET'], strict_slashes=False)
@@ -42,7 +44,7 @@ def get_todos_action():
 def sort_todos_by_date_created_action():
     todos = sort_todos_by_date_created(current_user.id)
     if not todos:
-        return jsonify([])
+        return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
 
 @todo_views.route('/api/todos/sort-by-date-due', methods=['GET'], strict_slashes=False)
@@ -50,7 +52,7 @@ def sort_todos_by_date_created_action():
 def sort_todos_by_date_due_action():
     todos = sort_todos_by_date_due(current_user.id)
     if not todos:
-        return jsonify([])
+        return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
 
 @todo_views.route('/api/todos', methods=['POST'])
@@ -65,7 +67,7 @@ def create_todo_endpoint():
     print(todo)
 
     if not todo:
-        return jsonify({'message': f"failed to create todo"})
+        return jsonify({'message': f"failed to create todo"}),401
     return jsonify(todo)
 
 '''@todo_views.route('/')
@@ -85,6 +87,9 @@ def get_todo_page():
 @jwt_required()
 def get_todos(year, month):
     todos = get_todos_by_month_json(current_user.id, month, year)
+    
+    if not todos:
+        return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
 
 
