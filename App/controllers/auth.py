@@ -2,12 +2,16 @@ from flask import redirect, url_for
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, get_jwt_identity, verify_jwt_in_request
 
 from App.models import User
+from App.database import db
 
 def login(username, password):
-  user = User.query.filter_by(username=username).first()
-  if user and user.check_password(password):
-    return create_access_token(identity=user.username)
-  return None
+  try:
+    user = User.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+      return create_access_token(identity=user.username)
+  except Exception as e:
+    db.session.rollback()
+    return None
 
 
 def setup_jwt(app):

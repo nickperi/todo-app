@@ -62,6 +62,13 @@ def user_login_api():
     return jsonify(message='bad username or password given'), 401
   response = jsonify(access_token=token) 
   set_access_cookies(response, token)
+  response.set_cookie(
+    "access_token",
+    token,
+    httponly=True,
+    secure=True,         # required for cross-site HTTPS
+    samesite="None"      # must be None for cross-site
+)
   return response
 
 @auth_views.route('/api/identify', methods=['GET'])
