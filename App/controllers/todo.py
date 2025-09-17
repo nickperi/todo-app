@@ -154,7 +154,14 @@ def get_custom_todos(user_id, sort, category, date_due, status):
         query = query.filter_by(category=category)
 
     if status:
-        query = query.filter_by(done=False)
+        if status == 'completed':
+            query = query.filter_by(done=True)
+        elif status == 'incomplete':
+            today = date.today()
+            query = query.filter(func.date(Todo.date_due) >= today, Todo.done == False)
+        else:
+            today = date.today()
+            query = query.filter(func.date(Todo.date_due) < today, Todo.done == False)
     
     todos = query.all()
     todos = [todo.get_json() for todo in todos]
