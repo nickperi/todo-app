@@ -116,7 +116,7 @@ def get_todos_by_date_action(year_month_day):
     todos = get_todos_by_due_date_json(current_user.id, year, month, day)
     return jsonify(todos)
 
-@todo_views.route('/api/custom-todos/', methods=['GET'])
+@todo_views.route('/api/custom-todos', methods=['GET'])
 @jwt_required()
 def get_custom_todos_action():
     sort = request.args.get('sort')
