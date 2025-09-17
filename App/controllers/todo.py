@@ -133,16 +133,16 @@ def calculate_time_elapsed(date_due, date_created):
         return f"{diff}"
     
 def get_custom_todos(user_id, sort, category, date_due, status):
-    query = Todo.query
+    query = Todo.query.filter_by(user_id=user_id)
     
     if sort:
         if sort == 'date-due':
-            query = query.filter_by(user_id=user_id).order_by(db.desc(Todo.date_due))
+            query = query.order_by(db.desc(Todo.date_due))
         elif sort == 'date-created':
-            query.filter_by(user_id=user_id).order_by(Todo.date_created)
+            query.order_by(Todo.date_created)
 
     if category:
-        query = query.filter_by(user_id=user_id, category=category)
+        query = query.filter_by(category=category)
 
     if date_due:
         date_values = date_due.split('-')
@@ -150,10 +150,10 @@ def get_custom_todos(user_id, sort, category, date_due, status):
         month = date_values[1]
         day = date_values[2]
         date_object = date(year, month, day)
-        query = query.filter(func.date(Todo.date_due) == date_object, Todo.user_id==user_id)
+        query = query.filter(func.date(Todo.date_due) == date_object)
 
     if status:
-        query = query.filter_by(user_id=user_id, done=False)
+        query = query.filter_by(done=False)
     
     todos = query.all()
     todos = [todo.get_json() for todo in todos]
