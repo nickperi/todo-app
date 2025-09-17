@@ -121,7 +121,7 @@ def get_todos_by_date_action(year_month_day):
 def get_custom_todos_action():
     sort = request.args.get('sort')
     category = request.args.get('category')
-    date_due = request.args.get('date_due')
+    date_due = request.args.get('date-due')
     status = request.args.get('status')
     todos = get_custom_todos(current_user.id, sort=sort, category=category, date_due=date_due, status=status)
     return jsonify(todos)
