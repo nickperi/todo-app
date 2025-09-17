@@ -146,7 +146,7 @@ def get_custom_todos(user_id, sort, category, date_due, status):
         year = int(date_values[0])
         month = int(date_values[1])
         day = int(date_values[2])
-        print(year + '_' + month + '_' + day)
+        print(str(year) + '_' + str(month) + '_' + str(day))
         date_object = date(year, month, day)
         query = query.filter(func.date(Todo.date_due) == date_object)
 
