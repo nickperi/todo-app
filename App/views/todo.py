@@ -22,6 +22,7 @@ from App.controllers import (
     get_all_todos_json,
     sort_todos_by_date_created,
     sort_todos_by_date_due,
+    get_custom_todos,
     calculate_time_elapsed,
     jwt_required
 )
@@ -87,7 +88,7 @@ def get_todo_page():
 @jwt_required()
 def get_todos(year, month):
     todos = get_todos_by_month_json(current_user.id, month, year)
-    
+
     if not todos:
         return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
@@ -113,6 +114,16 @@ def get_todos_by_date_action(year_month_day):
     month = int(date_values[1])
     day = int(date_values[2])
     todos = get_todos_by_due_date_json(current_user.id, year, month, day)
+    return jsonify(todos)
+
+@todo_views.route('/api/custom-todos/', methods=['GET'])
+@jwt_required()
+def get_custom_todos_action():
+    sort = request.args.get('sort')
+    category = request.args.get('category')
+    date_due = request.args.get('date_due')
+    status = request.args.get('status')
+    todos = get_custom_todos(current_user, sort=sort, category=category, date_due=date_due, status=status)
     return jsonify(todos)
 
 
