@@ -72,9 +72,10 @@ class Todo(db.Model):
                         "text": self.text,
                         "done": self.done,
                         "category": self.category,
-                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_created": self.date_created.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_due": self.date_due.strftime("%Y-%m-%d"),
                         "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_time_due": self.date_due.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
                         "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
                     }
@@ -88,6 +89,7 @@ class Todo(db.Model):
                         "date_created": None,
                         "date_due": self.date_due.strftime("%Y-%m-%d"),
                         "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_time_due": self.date_due.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
                         "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
                     }
@@ -101,7 +103,7 @@ class Todo(db.Model):
                         "text": self.text,
                         "done": self.done,
                         "category": self.category,
-                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_created": self.date_created.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_due": None,
                         "time_due": None,
                         "date_completed": None,
@@ -131,9 +133,10 @@ class Todo(db.Model):
                         "text": self.text,
                         "done": self.done,
                         "category": self.category,
-                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_created": self.date_created.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_due": self.date_due.strftime("%Y-%m-%d"),
                         "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_time_due": self.date_due.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_completed": None,
                         "time_taken": None
                     }
@@ -147,6 +150,7 @@ class Todo(db.Model):
                         "date_created": None,
                         "date_due": self.date_due.strftime("%Y-%m-%d"),
                         "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_time_due": self.date_due.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_completed": None,
                         "time_taken": None
                     }
@@ -160,7 +164,7 @@ class Todo(db.Model):
                         "text": self.text,
                         "done": self.done,
                         "category": self.category,
-                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_created": self.date_created.strftime("%a, %b %d, %Y %I:%M %p"),
                         "date_due": None,
                         "date_completed": None,
                         "time_taken": None
