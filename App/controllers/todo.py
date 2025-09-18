@@ -139,14 +139,13 @@ def get_custom_todos(user_id, sort, category, date_due, status):
         if sort == 'date-due':
             query = query.order_by(db.desc(Todo.date_due))
         elif sort == 'date-created':
-            query.order_by(Todo.date_created)
+            query = query.order_by(Todo.date_created)
 
     if date_due:
         date_values = date_due.split('-')
         year = int(date_values[0])
         month = int(date_values[1])
         day = int(date_values[2])
-        print(str(year) + '_' + str(month) + '_' + str(day))
         date_object = date(year, month, day)
         query = query.filter(func.date(Todo.date_due) == date_object)
 

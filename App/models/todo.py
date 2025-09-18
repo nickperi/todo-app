@@ -64,59 +64,120 @@ class Todo(db.Model):
         if self.done:
 
             if self.date_due:
-                return {
-      "id": self.id,
-      "user_id": self.user_id,
-      "text": self.text,
-      "done": self.done,
-      "category": self.category,
-      "date_created": self.date_created,
-      "date_due": self.date_due.strftime("%Y-%m-%d"),
-      "time_due": self.date_due.strftime("%I:%M %p"),
-      "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
-      "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
-    }
+
+                if self.date_created:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_due": self.date_due.strftime("%Y-%m-%d"),
+                        "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
+                        "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
+                    }
+                else:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": None,
+                        "date_due": self.date_due.strftime("%Y-%m-%d"),
+                        "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_completed": self.date_completed.strftime("%a, %b %d, %Y %I:%M %p"),
+                        "time_taken": self.calculate_time_elapsed(self.date_completed, self.date_created)
+                    }
+            
             else:
-                return {
-      "id": self.id,
-      "user_id": self.user_id,
-      "text": self.text,
-      "done": self.done,
-      "category": self.category,
-      "date_created": self.date_created,
-      "date_due": None,
-      "time_due": None,
-      "date_completed": None,
-      "time_taken": None
-      }
+
+                if self.date_created:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_due": None,
+                        "time_due": None,
+                        "date_completed": None,
+                        "time_taken": None
+                    }
+                else:
+                     return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": None,
+                        "date_due": None,
+                        "time_due": None,
+                        "date_completed": None,
+                        "time_taken": None
+                    }
         
         else:
             if self.date_due:
-                return {
-      "id": self.id,
-      "user_id": self.user_id,
-      "text": self.text,
-      "done": self.done,
-      "category": self.category,
-      "date_created": self.date_created,
-      "date_due": self.date_due.strftime("%Y-%m-%d"),
-      "time_due": self.date_due.strftime("%I:%M %p"),
-      "date_completed": None,
-      "time_taken": None
-    }
+
+                if self.date_created:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_due": self.date_due.strftime("%Y-%m-%d"),
+                        "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_completed": None,
+                        "time_taken": None
+                    }
+                else:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": None,
+                        "date_due": self.date_due.strftime("%Y-%m-%d"),
+                        "time_due": self.date_due.strftime("%I:%M %p"),
+                        "date_completed": None,
+                        "time_taken": None
+                    }
             
             else:
-                return {
-      "id": self.id,
-      "user_id": self.user_id,
-      "text": self.text,
-      "done": self.done,
-      "category": self.category,
-      "date_created": self.date_created,
-      "date_due": None,
-      "date_completed": None,
-      "time_taken": None
-    }
+
+                if self.date_created:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": self.date_created.strftime("%Y-%m-%d"),
+                        "date_due": None,
+                        "date_completed": None,
+                        "time_taken": None
+                    }
+                else:
+                    return {
+                        "id": self.id,
+                        "user_id": self.user_id,
+                        "text": self.text,
+                        "done": self.done,
+                        "category": self.category,
+                        "date_created": None,
+                        "date_due": None,
+                        "date_completed": None,
+                        "time_taken": None
+                    }
+                
 
 
     
