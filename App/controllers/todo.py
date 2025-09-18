@@ -96,7 +96,7 @@ def get_todos_by_due_date_json(user_id, year, month, day):
     return todos
 
 def sort_todos_by_date_created(user_id):
-    todos = Todo.query.filter_by(user_id=user_id).order_by(Todo.date_created.strftime("%Y-%m-%d")).all()
+    todos = Todo.query.filter_by(user_id=user_id).order_by(Todo.create_date).all()
     todos = [todo.get_json() for todo in todos]
     return todos
 
@@ -139,7 +139,7 @@ def get_custom_todos(user_id, sort, category, date_due, status):
         if sort == 'date-due':
             query = query.order_by(db.desc(Todo.date_due))
         elif sort == 'date-created':
-            query.order_by(Todo.date_created)
+            query.order_by(Todo.create_date)
 
     if date_due:
         date_values = date_due.split('-')
