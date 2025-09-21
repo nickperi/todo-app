@@ -1,4 +1,4 @@
-from flask import redirect, url_for
+from flask import redirect, url_for, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, get_jwt_identity, verify_jwt_in_request
 
 from App.models import User
@@ -24,6 +24,10 @@ def setup_jwt(app):
     if user:
         return user.username
     return None
+  
+  @jwt.unauthorized_loader
+  def unauthorized_response(callback):
+      return jsonify({"message": "Missing or invalid token"}), 401
   
   @jwt.expired_token_loader
   def expired_token_callback(jwt_header, jwt_payload):
