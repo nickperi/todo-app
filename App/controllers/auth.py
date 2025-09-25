@@ -31,7 +31,7 @@ def setup_jwt(app):
   
   @jwt.expired_token_loader
   def expired_token_callback(jwt_header, jwt_payload):
-    response = redirect(url_for('index_views.index_page'))  
+    response = jsonify({"message": "Expired token"}), 401 
     return response
 
   @jwt.user_lookup_loader
