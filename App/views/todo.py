@@ -36,7 +36,7 @@ load_dotenv()
 @jwt_required()
 def get_todos_action():
     todos = get_all_todos_json(current_user.id)
-    if not todos:
+    if todos is None:
         return jsonify(message="error: missing jwt"), 401
     return jsonify(todos)
 
